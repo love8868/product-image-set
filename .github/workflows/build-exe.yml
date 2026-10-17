@@ -27,13 +27,18 @@ jobs:
       - name: Smoke test --help
         shell: powershell
         run: |
-          & "dist/套图工坊.exe" --help
+          $exe = (Get-ChildItem -Path dist -Filter *.exe | Select-Object -First 1).FullName
+          if (-not $exe) { throw "no exe found in dist/" }
+          Write-Host "Testing $exe"
+          & $exe --help
           if ($LASTEXITCODE -ne 0) { throw "--help exited $LASTEXITCODE" }
 
       - name: Smoke test web server
         shell: powershell
         run: |
-          $p = Start-Process -FilePath "dist/套图工坊.exe" -ArgumentList "--port","5059","--no-browser" -PassThru
+          $exe = (Get-ChildItem -Path dist -Filter *.exe | Select-Object -First 1).FullName
+          if (-not $exe) { throw "no exe found in dist/" }
+          $p = Start-Process -FilePath $exe -ArgumentList "--port","5059","--no-browser" -PassThru
           try {
             $ok = $false
             for ($i = 0; $i -lt 30; $i++) {
