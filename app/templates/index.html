@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>新建任务 · 产品详情套图工具</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="logo">产品详情套图工具</span>
+    <span class="sub">MANHATTAN · INTELLINET</span>
+  </div>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <h1>新建任务</h1>
+    <div class="orange-rule"></div>
+    <p>填好产品和选项，点「开始生成」。模块可单选多选，依赖会自动补齐。</p>
+  </div>
+
+  <form id="job-form" method="post">
+
+    <!-- 产品 -->
+    <section class="card">
+      <h2>产品</h2>
+      <p class="hint">从官网产品页自动抓取介绍、规格和产品图。</p>
+      <div class="field">
+        <label for="product_input">Shopify handle 或产品页 URL</label>
+        <input type="text" id="product_input" name="product_input" required
+               placeholder="manhattan-en-...-181488 或 https://manhattanproducts.eu/products/...">
+      </div>
+    </section>
+
+    <!-- 模块选择 -->
+    <section class="card">
+      <h2>模块选择</h2>
+      <p class="hint">勾选要跑的模块（默认全选）。没勾的前置依赖会自动补上。</p>
+      <div class="mod-grid">
+        <label class="mod-item"><input type="checkbox" name="modules" value="ingest" checked><span><span class="t">素材入库</span><br><span class="d">ingest · 官网抓图抓文案</span></span></label>
+        <label class="mod-item"><input type="checkbox" name="modules" value="analyze" checked><span><span class="t">分析</span><br><span class="d">analyze · 事实提取分级</span></span></label>
+        <label class="mod-item"><input type="checkbox" name="modules" value="plan" checked><span><span class="t">策划</span><br><span class="d">plan · 三型诊断+图位规划</span></span></label>
+        <label class="mod-item"><input type="checkbox" name="modules" value="copy" checked><span><span class="t">文案</span><br><span class="d">copy · 主图文案海报文案</span></span></label>
+        <label class="mod-item"><input type="checkbox" name="modules" value="ops_copy" checked><span><span class="t">运营文案</span><br><span class="d">ops_copy · A+/搜索词/上架包</span></span></label>
+        <label class="mod-item"><input type="checkbox" name="modules" value="douyin" checked><span><span class="t">抖音文案</span><br><span class="d">douyin · 口播脚本+话题</span></span></label>
+        <label class="mod-item"><input type="checkbox" name="modules" value="generate" checked><span><span class="t">生图</span><br><span class="d">generate · AI 底图生成</span></span></label>
+        <label class="mod-item"><input type="checkbox" name="modules" value="layout" checked><span><span class="t">排版</span><br><span class="d">layout · 叠字排版出成品</span></span></label>
+        <label class="mod-item"><input type="checkbox" name="modules" value="validate" checked><span><span class="t">校验</span><br><span class="d">validate · 规范校验+清单</span></span></label>
+      </div>
+    </section>
+
+    <!-- 生成选项 -->
+    <section class="card">
+      <h2>生成选项</h2>
+      <p class="hint">季节、品牌主题和生图通道。</p>
+      <div class="form-grid">
+        <div class="field">
+          <label for="season">季节 / 节日</label>
+          <select id="season" name="season">
+            <option value="spring">春</option>
+            <option value="summer">夏</option>
+            <option value="autumn">秋</option>
+            <option value="winter">冬</option>
+            <option value="christmas" selected>圣诞</option>
+            <option value="easter">复活节</option>
+            <option value="halloween">万圣节</option>
+            <option value="black_friday">黑五</option>
+            <option value="new_year">新年</option>
+            <option value="valentine">情人节</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="theme">品牌主题</label>
+          <select id="theme" name="theme">
+            <option value="manhattan" selected>Manhattan 浅色</option>
+            <option value="intellinet">Intellinet 深色</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="provider">生图通道</label>
+          <select id="provider" name="provider">
+            <option value="openai" selected>OpenAI</option>
+            <option value="gemini">Gemini</option>
+            <option value="openai_compatible">OpenAI 兼容（自定义地址）</option>
+            <option value="muse">内置生图（代跑）</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="base_url">兼容地址 <span class="sub">（选"OpenAI 兼容"时填）</span></label>
+          <input type="text" id="base_url" name="base_url" value="{{ saved.base_url }}"
+                 placeholder="https://api.openai.com/v1（留空用官方地址）">
+        </div>
+      </div>
+      <div class="field" style="margin-top:18px">
+        <label class="check-line">
+          <input type="checkbox" name="dry_run" value="1" checked>
+          试运行 <span class="sub">（占位图，不调 API，不花钱）</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- API Key -->
+    <section class="card">
+      <h2>API Key</h2>
+      <p class="hint">可空。填了对应 Key 才会走真 API（会产生费用）；不填只能试运行。</p>
+      <div class="form-grid-2">
+        <div class="field">
+          <label for="api_key_openai">OpenAI API Key</label>
+          <input type="password" id="api_key_openai" name="api_key_openai" autocomplete="off"
+                 placeholder="sk-..." value="{{ saved.api_key_openai }}">
+        </div>
+        <div class="field">
+          <label for="api_key_gemini">Gemini API Key</label>
+          <input type="password" id="api_key_gemini" name="api_key_gemini" autocomplete="off"
+                 placeholder="AIza..." value="{{ saved.api_key_gemini }}">
+        </div>
+      </div>
+    </section>
+
+    <div class="btn-row">
+      <button type="submit" class="btn-primary">开始生成</button>
+    </div>
+
+  </form>
+</div>
+
+<script>
+document.getElementById('job-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('.btn-primary');
+  btn.disabled = true;
+  btn.textContent = '提交中…';
+  try {
+    const r = await fetch('/api/run', {method: 'POST', body: new FormData(e.target)});
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.error || ('HTTP ' + r.status));
+    location.href = '/results?job_id=' + encodeURIComponent(j.job_id);
+  } catch (err) {
+    alert('提交失败：' + err.message);
+    btn.disabled = false;
+    btn.textContent = '开始生成';
+  }
+});
+</script>
+
+</body>
+</html>

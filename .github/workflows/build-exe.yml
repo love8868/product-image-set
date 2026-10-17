@@ -1,0 +1,110 @@
+name: build-exe
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    permissions:
+      contents: write   # 创建 GitHub Release 需要写权限
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pyinstaller
+
+      - name: Build EXE with PyInstaller
+        run: pyinstaller build.spec
+
+      - name: Smoke test --help
+        shell: powershell
+        run: |
+          $exe = (Get-ChildItem -Path dist -Filter *.exe | Select-Object -First 1).FullName
+          if (-not $exe) { throw "no exe found in dist/" }
+          Write-Host "Testing $exe"
+          & $exe --help
+          if ($LASTEXITCODE -ne 0) { throw "--help exited $LASTEXITCODE" }
+
+      - name: Smoke test --pipeline-worker
+        shell: powershell
+        run: |
+          $exe = (Get-ChildItem -Path dist -Filter *.exe | Select-Object -First 1).FullName
+          if (-not $exe) { throw "no exe found in dist/" }
+          & $exe --pipeline-worker pipeline/run.py --list
+          if ($LASTEXITCODE -ne 0) { throw "--pipeline-worker exited $LASTEXITCODE" }
+
+      - name: Smoke test web server
+        shell: powershell
+        run: |
+          $exe = (Get-ChildItem -Path dist -Filter *.exe | Select-Object -First 1).FullName
+          if (-not $exe) { throw "no exe found in dist/" }
+          $p = Start-Process -FilePath $exe -ArgumentList "--port","5059","--no-browser" -PassThru
+          try {
+            $ok = $false
+            for ($i = 0; $i -lt 30; $i++) {
+              try {
+                $code = (Invoke-WebRequest -Uri "http://127.0.0.1:5059/" -UseBasicParsing -TimeoutSec 3).StatusCode
+              } catch { $code = 0 }
+              if ($code -eq 200) { $ok = $true; break }
+              Start-Sleep -Seconds 2
+            }
+            if (-not $ok) { throw "server did not return 200 within 60s" }
+            # PS 5.1 的 Invoke-WebRequest 遇到 4xx 直接抛异常，
+            # 状态码从 $_.Exception.Response 取，错误体从 $_.ErrorDetails.Message 取
+            $code404 = 0
+            $body404 = ""
+            try {
+              Invoke-WebRequest -Uri "http://127.0.0.1:5059/api/status?job_id=none" -UseBasicParsing -TimeoutSec 5 | Out-Null
+              throw "expected 404 but got 200"
+            } catch {
+              if ($_.Exception.Response) { $code404 = [int]$_.Exception.Response.StatusCode }
+              if ($_.ErrorDetails) { $body404 = $_.ErrorDetails.Message }
+            }
+            if ($code404 -ne 404) { throw "expected 404 for unknown job, got $code404" }
+            $j = $body404 | ConvertFrom-Json
+            if (-not $j.error) { throw "expected JSON error body" }
+            Write-Host "smoke OK"
+          } finally {
+            Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
+          }
+
+      - name: Package zip
+        shell: powershell
+        run: |
+          $exe = (Get-ChildItem -Path dist -Filter *.exe | Select-Object -First 1).FullName
+          if (-not $exe) { throw "no exe found in dist/" }
+          Compress-Archive -Path $exe, "packaging/使用说明.txt" -DestinationPath "dist/taotugongfang-windows.zip" -Force
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-exe
+          path: dist/*.exe
+
+      - name: GitHub Release (on tag)
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $exe = (Get-ChildItem -Path dist -Filter *.exe | Select-Object -First 1).FullName
+          if (-not $exe) { throw "no exe found in dist/" }
+          $tag = "${{ github.ref_name }}"
+          # runner 的 PowerShell 遇到原生命令非零退出会直接终止步骤，这里显式降为 Continue，用 LASTEXITCODE 判断
+          $errPref = $ErrorActionPreference
+          $ErrorActionPreference = 'Continue'
+          gh release view $tag 2>&1 | Out-Null
+          $viewFailed = $LASTEXITCODE -ne 0
+          $ErrorActionPreference = $errPref
+          if ($viewFailed) { gh release create $tag --generate-notes --title $tag }
+          gh release upload $tag "dist/taotugongfang-windows.zip" --clobber

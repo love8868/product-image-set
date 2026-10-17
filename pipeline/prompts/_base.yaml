@@ -1,0 +1,33 @@
+id: base
+version: 1
+changelog:
+  - "v1: 从 prompts.py 拆出 STYLE LOCK 全局块 / QUALITY / NEGATIVE / NO_TEXT / desc 保护尾巴 / 五段组装模板；新增 no_drift 防漂移条款（对标 screenshot-teardown §5 之「10 禁止漂移」）"
+
+# ---- 全局合同：字段结构参照 screenshot-teardown §5 条款编号体系 ----
+style_lock:
+  # 配色：背景 / 文字 / 主色（manhattan 浅色主题；intellinet 主题见 layout.py THEMES）
+  palette: ["#F4F6F8", "#1F2933", "#2F80ED"]
+  lighting: "neutral, clean studio lighting"   # 06 光线系统
+  mood: "modern, professional, trustworthy"     # 01 视觉方向
+  template: "STYLE LOCK (shared across all images) -- Brand: $brand. Palette: $palette. Lighting: $lighting. Mood: $mood. Keep color grading, lighting direction and overall art direction consistent across every image in this set."
+
+# 10 禁止漂移：全局合同的一部分，追加在 style_lock 之后
+no_drift: "No style drift: all images in this set must keep the same palette, lighting direction, color grading and art direction as the STYLE LOCK above. Do not introduce new color themes, lighting moods or decorative styles."
+
+# 器材背书（QUALITY）
+quality: "shot on Sony A7R V, 85mm f/2.0 lens, natural diffused studio lighting, authentic commercial product photography, true-to-life colors, no heavy post-processing, realistic surface texture, professional e-commerce visual style."
+
+# 负面约束（negative 可叠加不可删除：slot 的 negative_add 只能追加）
+negative: "AI-generated look, artificial, CGI quality, 3D render, synthetic texture, oversaturated, HDR, heavy vignette, heavy post-processing, excessive lens flare, low resolution, blurry, deformed, overexposed, underexposed, grainy, noisy, watermark, text, signature, text distortion, bad typography, overlapping text, cheap look, cartoon"
+
+# 无字底图铁律：文字一律后期 Pillow 叠加，模型不画字
+no_text: "IMPORTANT: Do NOT render any text, letters, numbers, or labels in the generated image. Leave clean negative space in the composition for text overlay in post-production."
+
+# 产品描述保护尾巴：desc 出现几次、锁就跟几次
+desc_guard: "$product_desc -- CRITICAL: same colors, same materials, same finish, same design, do not modify any detail"
+
+# ---- 五段精确拼接（含换行与段落顺序；assert_prompt_structure 据此断言）----
+# global_lock -> product_lock（第1次） -> [Lane] 标记 -> scene+desc -> lock（第2次）
+#   -> no_text -> quality -> negative
+assembly_order: [global_lock, product_lock, lane_scene, lock, no_text, quality, negative]
+assembly_template: "$global_lock\n\n$product_lock\n\n$lane_scene\n$lock\n$no_text\n$quality\n\nNegative prompt: $negative"

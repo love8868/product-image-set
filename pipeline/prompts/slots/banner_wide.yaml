@@ -1,0 +1,19 @@
+id: banner_wide
+version: 1
+changelog:
+  - "v1: 从 prompts.py SCENES['banner_wide'] 迁移；{pt} 改为 $pt（string.Template 语法）"
+category: [charging_cabinet]
+slot: banner
+trigger: always
+order: 30
+lane: P
+provider: gemini
+size: [2048, 512]
+layout_target: web_banner   # 注：当前 layout.py web_banner 未消费该 draft（hero 直绘）；字段指向语义上的目标画布
+scene_en: >-
+  Ultra-wide e-commerce hero banner composition, the $pt positioned
+  on the right third of the frame on a clean gradient studio background,
+  large empty negative space on the left for headline text, soft studio lighting,
+  minimal, premium, high-end catalog style
+composition: "产品右三分之一，左侧大留白给标题（layout web_banner 左文右图）"
+negative_add: []
