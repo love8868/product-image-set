@@ -35,6 +35,15 @@ def _worker_mode(args):
 
 
 def main():
+    # Windows 控制台默认编码常为 cp1252/cp936，打印中文帮助/日志会炸。
+    # 冻结 EXE 里统一切到 UTF-8，实在显示不了就用 ? 代替，保证不崩。
+    for _s in (sys.stdout, sys.stderr):
+        try:
+            if _s is not None and hasattr(_s, "reconfigure"):
+                _s.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+
     argv = sys.argv[1:]
 
     if "--help" in argv or "-h" in argv:
