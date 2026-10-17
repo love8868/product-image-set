@@ -85,6 +85,11 @@ jobs:
           $exe = (Get-ChildItem -Path dist -Filter *.exe | Select-Object -First 1).FullName
           if (-not $exe) { throw "no exe found in dist/" }
           $tag = "${{ github.ref_name }}"
-          gh release view $tag 2>$null | Out-Null
-          if ($LASTEXITCODE -ne 0) { gh release create $tag --generate-notes --title $tag }
+          # runner 的 PowerShell 遇到原生命令非零退出会直接终止步骤，这里显式降为 Continue，用 LASTEXITCODE 判断
+          $errPref = $ErrorActionPreference
+          $ErrorActionPreference = 'Continue'
+          gh release view $tag 2>&1 | Out-Null
+          $viewFailed = $LASTEXITCODE -ne 0
+          $ErrorActionPreference = $errPref
+          if ($viewFailed) { gh release create $tag --generate-notes --title $tag }
           gh release upload $tag "$exe" --clobber
