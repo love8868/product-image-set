@@ -49,9 +49,23 @@ jobs:
               Start-Sleep -Seconds 2
             }
             if (-not $ok) { throw "server did not return 200 within 60s" }
-            $st = Invoke-WebRequest -Uri "http://127.0.0.1:5059/api/status?job_id=none" -UseBasicParsing
-            if ($st.StatusCode -ne 404) { throw "expected 404 for unknown job" }
-            $j = $st.Content | ConvertFrom-Json
+            # PS 5.1 的 Invoke-WebRequest 遇到 4xx 直接抛异常，这里手动抓状态码
+            $code404 = 0
+            $body404 = ""
+            try {
+              $st = Invoke-WebRequest -Uri "http://127.0.0.1:5059/api/status?job_id=none" -UseBasicParsing -TimeoutSec 5
+              $code404 = [int]$st.StatusCode
+              $body404 = $st.Content
+            } catch {
+              $resp = $_.Exception.Response
+              if ($resp) {
+                $code404 = [int]$resp.StatusCode
+                $reader = New-Object System.IO.StreamReader($resp.GetResponseStream())
+                $body404 = $reader.ReadToEnd()
+              }
+            }
+            if ($code404 -ne 404) { throw "expected 404 for unknown job, got $code404" }
+            $j = $body404 | ConvertFrom-Json
             if (-not $j.error) { throw "expected JSON error body" }
             Write-Host "smoke OK"
           } finally {
