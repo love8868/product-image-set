@@ -83,7 +83,7 @@ jobs:
         run: |
           $exe = (Get-ChildItem -Path dist -Filter *.exe | Select-Object -First 1).FullName
           if (-not $exe) { throw "no exe found in dist/" }
-          Compress-Archive -Path $exe, "packaging/使用说明.txt" -DestinationPath "dist/taotugongfang-windows.zip" -Force
+          Compress-Archive -Path $exe, "packaging/*.txt" -DestinationPath "dist/taotugongfang-windows.zip" -Force
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
