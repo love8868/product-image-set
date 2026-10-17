@@ -1,0 +1,67 @@
+name: build-exe
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pyinstaller
+
+      - name: Build EXE with PyInstaller
+        run: pyinstaller build.spec
+
+      - name: Smoke test --help
+        shell: powershell
+        run: |
+          & "dist/套图工坊.exe" --help
+          if ($LASTEXITCODE -ne 0) { throw "--help exited $LASTEXITCODE" }
+
+      - name: Smoke test web server
+        shell: powershell
+        run: |
+          $p = Start-Process -FilePath "dist/套图工坊.exe" -ArgumentList "--port","5059","--no-browser" -PassThru
+          try {
+            $ok = $false
+            for ($i = 0; $i -lt 30; $i++) {
+              try {
+                $code = (Invoke-WebRequest -Uri "http://127.0.0.1:5059/" -UseBasicParsing -TimeoutSec 3).StatusCode
+              } catch { $code = 0 }
+              if ($code -eq 200) { $ok = $true; break }
+              Start-Sleep -Seconds 2
+            }
+            if (-not $ok) { throw "server did not return 200 within 60s" }
+            $st = Invoke-WebRequest -Uri "http://127.0.0.1:5059/api/status?job_id=none" -UseBasicParsing
+            if ($st.StatusCode -ne 404) { throw "expected 404 for unknown job" }
+            $j = $st.Content | ConvertFrom-Json
+            if (-not $j.error) { throw "expected JSON error body" }
+            Write-Host "smoke OK"
+          } finally {
+            Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
+          }
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-exe
+          path: dist/*.exe
+
+      - name: GitHub Release (on tag)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*.exe
+          generate_release_notes: true

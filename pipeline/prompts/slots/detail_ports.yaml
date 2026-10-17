@@ -1,0 +1,18 @@
+id: detail_ports
+version: 1
+changelog:
+  - "v1: 从 prompts.py SCENES['detail_ports'] 迁移；{pt} 改为 $pt；trigger=manual（旧 JOBS 未启用，保持行为不变）"
+category: [charging_cabinet]
+slot: detail
+trigger: manual        # 模板库备查：旧管线 SCENES 有但 JOBS 未启用，迁移后仍不自动生成
+order: 50
+lane: M
+provider: openai
+size: [1024, 1024]
+layout_target: amazon_extra
+scene_en: >-
+  Extreme close-up of the $pt's front USB-C ports and LED indicators,
+  dark neutral background, soft rim lighting tracing the product edges,
+  sharp focus on port detail and build quality
+composition: "微距特写，接口区占画面 60%+，边缘 rim light 勾勒"
+negative_add: ["blurry edges", "plastic texture"]
