@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>提示词库 · 套图工坊</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="index.html">套图工坊</a>
+    <span class="sub">MANHATTAN · INTELLINET</span>
+    <nav class="nav">
+      <a href="index.html">首页</a>
+      <a href="prompts.html" class="cur">提示词库</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <div class="crumb">首页 / 提示词库</div>
+    <h1>提示词库</h1>
+    <div class="orange-rule"></div>
+    <p>每个图位的生图提示词都在这里。复制拿去 Gemini / OpenAI 跑，效果好的点 ★ 收藏，下次建任务直接复用。</p>
+  </div>
+
+  <!-- ============ 我的收藏 ============ -->
+  <div class="sec-kicker"><span class="sec-num">★</span><h2>我的收藏</h2></div>
+  <p class="sec-lead">验证过好用的模板置顶，下次建任务直接沿用，不用重新试。</p>
+
+  <div class="fav-card">
+    <div class="tpl-head">
+      <h3>场景图 · 办公室</h3>
+      <span class="ver">v1</span>
+      <span class="trig auto">自动纳入</span>
+      <span class="tpl-id">scene_office</span>
+    </div>
+    <div class="tpl-meta">
+      <span>通道 <b>Lane M</b></span>
+      <span>尺寸 <b>1024 × 1024</b></span>
+      <span>排版目标 <b>amazon_extra</b></span>
+    </div>
+    <div class="fav-thumb"><img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/amazon_extra_1.jpg" alt="用该模板跑出的成品图"><span>用这条 prompt 跑出的图 · Gemini 实测</span></div>
+    <div><span class="fav-note">Gemini 实测可用 · 2026-10-18 —— 机身、logo、蜂窝网罩、密码锁还原准确，可直接复用</span></div>
+    <div class="tpl-prompt">STYLE LOCK (shared across all images) -- Brand: MANHATTAN. Palette: #F4F6F8, #1F2933, #2F80ED. Lighting: neutral, clean studio lighting. Mood: modern, professional, trustworthy...
+
+[Lane M] Modern office desk scene, the 10-Port USB-C Desktop Charging Cabinet placed on a light wooden desk next to a laptop and notebook, soft daylight from a window, shallow depth of field, product as the clear hero in the foreground
+...</div>
+    <div class="tpl-actions">
+      <button class="copy-btn" data-tpl="scene_office">复制完整 prompt</button>
+      <button class="star on">★ 已收藏</button>
+    </div>
+  </div>
+
+  <!-- ============ 全部模板 ============ -->
+  <div class="sec-kicker"><span class="sec-num">05</span><h2>全部模板</h2></div>
+  <p class="sec-lead">按图位分组。每个模板带版本号，改版有 changelog，可追溯。</p>
+
+  <!-- 1 场景图 · 办公室 -->
+  <div class="tpl-group" id="g-scene_office">
+    <div class="tpl-head">
+      <h3>场景图 · 办公室</h3>
+      <span class="ver">v1</span>
+      <span class="trig auto">自动纳入</span>
+      <span class="tpl-id">scene_office</span>
+    </div>
+    <div class="tpl-meta">
+      <span>通道 <b>Lane M</b>（蒙版 inpaint，只画背景）</span>
+      <span>尺寸 <b>1024 × 1024</b></span>
+      <span>排版目标 <b>amazon_extra</b></span>
+    </div>
+    <div class="tpl-log"><b>changelog</b> · v1：从 prompts.py SCENES['office_desk'] 迁移；变量改为 $pt 语法</div>
+    <div class="tpl-prompt">STYLE LOCK (shared across all images) -- Brand: MANHATTAN. Palette: #F4F6F8, #1F2933, #2F80ED. Lighting: neutral, clean studio lighting. Mood: modern, professional, trustworthy. Keep color grading, lighting direction and overall art direction consistent across every image in this set.
+No style drift: all images in this set must keep the same palette, lighting direction, color grading and art direction as the STYLE LOCK above.
+
+[Lane M] Modern office desk scene, the 10-Port USB-C Desktop Charging Cabinet placed on a light wooden desk next to a laptop and notebook, soft daylight from a window, shallow depth of field, product as the clear hero in the foreground
+...</div>
+    <div class="tpl-actions">
+      <button class="copy-btn" data-tpl="scene_office">复制完整 prompt</button>
+      <button class="star on">★ 已收藏</button>
+    </div>
+    <div class="tpl-variants">
+      <div class="vl">风格变体 <span class="sub">—— 同一图位换氛围，产品本身不变</span></div>
+      <div class="variant-pills" data-vgroup="scene_office">
+        <button type="button" class="vpill sel">现代风 <span class="vtag">默认</span></button>
+        <button type="button" class="vpill">工业风</button>
+        <button type="button" class="vpill">北欧风</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 场景图 · 教室 -->
+  <div class="tpl-group" id="g-scene_classroom">
+    <div class="tpl-head">
+      <h3>场景图 · 教室</h3>
+      <span class="ver">v1</span>
+      <span class="trig auto">自动纳入</span>
+      <span class="tpl-id">scene_classroom</span>
+    </div>
+    <div class="tpl-meta">
+      <span>通道 <b>Lane M</b>（蒙版 inpaint，只画背景）</span>
+      <span>尺寸 <b>1024 × 1024</b></span>
+      <span>排版目标 <b>amazon_extra</b></span>
+    </div>
+    <div class="tpl-log"><b>changelog</b> · v1：从 prompts.py SCENES['classroom'] 迁移；变量改为 $pt 语法</div>
+    <div class="tpl-prompt">STYLE LOCK (shared across all images) -- Brand: MANHATTAN. Palette: #F4F6F8, #1F2933, #2F80ED. Lighting: neutral, clean studio lighting. Mood: modern, professional, trustworthy...
+
+[Lane M] Bright modern classroom scene, the 10-Port USB-C Desktop Charging Cabinet on a teacher's desk with tablets neatly stored nearby, clean minimal background, morning light, product centered as the visual focus
+...</div>
+    <div class="tpl-actions">
+      <button class="copy-btn" data-tpl="scene_classroom">复制完整 prompt</button>
+      <button class="star">☆ 收藏</button>
+    </div>
+    <div class="tpl-variants">
+      <div class="vl">风格变体 <span class="sub">—— 同一图位换氛围，产品本身不变</span></div>
+      <div class="variant-pills" data-vgroup="scene_classroom">
+        <button type="button" class="vpill sel">现代风 <span class="vtag">默认</span></button>
+        <button type="button" class="vpill">工业风</button>
+        <button type="button" class="vpill">北欧风</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 官网横幅 -->
+  <div class="tpl-group" id="g-banner_wide">
+    <div class="tpl-head">
+      <h3>官网横幅</h3>
+      <span class="ver">v1</span>
+      <span class="trig auto">自动纳入</span>
+      <span class="tpl-id">banner_wide</span>
+    </div>
+    <div class="tpl-meta">
+      <span>通道 <b>Lane P</b>（prompt 放开 + 多参考图）</span>
+      <span>尺寸 <b>2048 × 512</b></span>
+      <span>排版目标 <b>web_banner</b></span>
+    </div>
+    <div class="tpl-log"><b>changelog</b> · v1：从 prompts.py SCENES['banner_wide'] 迁移；变量改为 $pt 语法</div>
+    <div class="tpl-prompt">STYLE LOCK (shared across all images) -- Brand: MANHATTAN. Palette: #F4F6F8, #1F2933, #2F80ED...
+
+[Lane P] Ultra-wide e-commerce hero banner composition, the 10-Port USB-C Desktop Charging Cabinet positioned on the right third of the frame on a clean gradient studio background, large empty negative space on the left for headline text, soft studio lighting, minimal, premium, high-end catalog style
+...</div>
+    <div class="tpl-actions">
+      <button class="copy-btn" data-tpl="banner_wide">复制完整 prompt</button>
+      <button class="star">☆ 收藏</button>
+    </div>
+    <div class="tpl-variants">
+      <div class="vl">风格变体 <span class="sub">—— 同一图位换氛围，产品本身不变</span></div>
+      <div class="variant-pills" data-vgroup="banner_wide">
+        <button type="button" class="vpill sel">现代风 <span class="vtag">默认</span></button>
+        <button type="button" class="vpill">工业风</button>
+        <button type="button" class="vpill">北欧风</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 接口特写 -->
+  <div class="tpl-group" id="g-detail_ports">
+    <div class="tpl-head">
+      <h3>接口特写</h3>
+      <span class="ver">v1</span>
+      <span class="trig manual">备查</span>
+      <span class="tpl-id">detail_ports</span>
+    </div>
+    <div class="tpl-meta">
+      <span>通道 <b>Lane M</b>（蒙版 inpaint，只画背景）</span>
+      <span>尺寸 <b>1024 × 1024</b></span>
+      <span>排版目标 <b>amazon_extra</b></span>
+    </div>
+    <div class="tpl-log"><b>changelog</b> · v1：trigger=manual，仅模板库备查，不自动生成（保持旧管线行为）</div>
+    <div class="tpl-prompt">STYLE LOCK (shared across all images) -- Brand: MANHATTAN. Palette: #F4F6F8, #1F2933, #2F80ED...
+
+[Lane M] Extreme close-up of the 10-Port USB-C Desktop Charging Cabinet's front USB-C ports and LED indicators, dark neutral background, soft rim lighting tracing the product edges, sharp focus on port detail and build quality
+...</div>
+    <div class="tpl-actions">
+      <button class="copy-btn" data-tpl="detail_ports">复制完整 prompt</button>
+      <button class="star">☆ 收藏</button>
+    </div>
+    <div class="tpl-variants">
+      <div class="vl">风格变体 <span class="sub">—— 同一图位换氛围，产品本身不变</span></div>
+      <div class="variant-pills" data-vgroup="detail_ports">
+        <button type="button" class="vpill sel">现代风 <span class="vtag">默认</span></button>
+        <button type="button" class="vpill">工业风</button>
+        <button type="button" class="vpill">北欧风</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 季节海报 -->
+  <div class="tpl-group" id="g-season_poster">
+    <div class="tpl-head">
+      <h3>季节海报</h3>
+      <span class="ver">v1</span>
+      <span class="trig season">随季节</span>
+      <span class="tpl-id">season_poster</span>
+    </div>
+    <div class="tpl-meta">
+      <span>通道 <b>Lane M</b>（蒙版 inpaint，只画背景）</span>
+      <span>尺寸 <b>1080 × 1440</b></span>
+      <span>排版目标 <b>season_poster</b></span>
+    </div>
+    <div class="tpl-log"><b>changelog</b> · v1：$season_scene 由 seasons.py 注入；尺寸收敛为 1080×1440</div>
+    <div class="tpl-prompt">STYLE LOCK (shared across all images) -- Brand: MANHATTAN. Palette: #F4F6F8, #1F2933, #2F80ED...
+
+[Lane M] Seasonal poster background, cozy Christmas scene with soft bokeh lights and pine elements, the 10-Port USB-C Desktop Charging Cabinet placed as the hero with generous negative space for headline text
+...</div>
+    <div class="tpl-actions">
+      <button class="copy-btn" data-tpl="season_poster">复制完整 prompt</button>
+      <button class="star">☆ 收藏</button>
+    </div>
+    <div class="tpl-variants">
+      <div class="vl">风格变体 <span class="sub">—— 同一图位换氛围，产品本身不变</span></div>
+      <div class="variant-pills" data-vgroup="season_poster">
+        <button type="button" class="vpill sel">现代风 <span class="vtag">默认</span></button>
+        <button type="button" class="vpill">工业风</button>
+        <button type="button" class="vpill">北欧风</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 组装说明 ============ -->
+  <section class="card">
+    <h2>一条完整 prompt 是这样拼出来的</h2>
+    <p class="hint">四层模板 + 产品事实，程序按固定顺序组装。换产品只换最后一段，前面全部复用。</p>
+    <div class="flow">
+      <div class="step"><b>全局合同</b>风格锁定 · 防漂移 · 质量 · 负面 · 无字铁律</div>
+      <div class="arr">→</div>
+      <div class="step"><b>3C 锁定词</b>外形 / 颜色 / logo / 接口，一个不能改</div>
+      <div class="arr">→</div>
+      <div class="step"><b>图位模板</b>场景描述 + 构图预留（上面 5 个）</div>
+      <div class="arr">→</div>
+      <div class="step"><b>产品事实</b>官网 official 层：名称 / 规格 / 卖点</div>
+      <div class="arr">→</div>
+      <div class="step"><b>完整 prompt</b>英文全文，可直接喂给生图模型</div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="flogo">套图工坊</div>
+  <div>文案 + 设计 + 策划 + 运营 + 提示词 + 优化，一站式。</div>
+</footer>
+
+<script>
+// 完整 prompt（演示用全文，点击复制按钮写入剪贴板）
+const PROMPTS = {
+scene_office: `STYLE LOCK (shared across all images) -- Brand: MANHATTAN. Palette: #F4F6F8, #1F2933, #2F80ED. Lighting: neutral, clean studio lighting. Mood: modern, professional, trustworthy. Keep color grading, lighting direction and overall art direction consistent across every image in this set.
+No style drift: all images in this set must keep the same palette, lighting direction, color grading and art direction as the STYLE LOCK above. Do not introduce new color themes, lighting moods or decorative styles.
+
+CRITICAL HIGHEST PRIORITY: Product reference image is provided.
+You MUST use the reference image as the EXACT basis for the product.
+Keep EXACT same: housing outline and form factor, all colors and surface finish, logo placement and label artwork letter by letter, port layout and connector types, button and LED indicator positions, port count and numbering.
+DO NOT change: the logo, label text, color scheme, housing shape, port positions, port count or numbering, surface texture or finish.
+You may ONLY change: background scene, camera angle, lighting.
+The product must look IDENTICAL to the reference image - a 10-port USB-C desktop charging cabinet, black metal housing with blue dividers.
+
+[Lane M] Modern office desk scene, the 10-Port USB-C Desktop Charging Cabinet placed on a light wooden desk next to a laptop and notebook, soft daylight from a window, shallow depth of field, product as the clear hero in the foreground
+10-Port USB-C Desktop Charging Cabinet -- CRITICAL: same colors, same materials, same finish, same design, do not modify any detail
+IMPORTANT: Do NOT render any text, letters, numbers, or labels in the generated image. Leave clean negative space in the composition for text overlay in post-production.
+shot on Sony A7R V, 85mm f/2.0 lens, natural diffused studio lighting, authentic commercial product photography, true-to-life colors, no heavy post-processing, realistic surface texture, professional e-commerce visual style.
+
+Negative prompt: AI-generated look, artificial, CGI quality, 3D render, synthetic texture, oversaturated, HDR, heavy vignette, heavy post-processing, excessive lens flare, low resolution, blurry, deformed, watermark, text, signature, text distortion, bad typography, cheap look, cartoon`,
+scene_classroom: `STYLE LOCK (shared across all images) -- Brand: MANHATTAN. Palette: #F4F6F8, #1F2933, #2F80ED. Lighting: neutral, clean studio lighting. Mood: modern, professional, trustworthy. Keep color grading, lighting direction and overall art direction consistent across every image in this set.
+No style drift: all images in this set must keep the same palette, lighting direction, color grading and art direction as the STYLE LOCK above. Do not introduce new color themes, lighting moods or decorative styles.
+
+CRITICAL HIGHEST PRIORITY: Product reference image is provided.
+You MUST use the reference image as the EXACT basis for the product.
+Keep EXACT same: housing outline and form factor, all colors and surface finish, logo placement and label artwork letter by letter, port layout and connector types, button and LED indicator positions, port count and numbering.
+DO NOT change: the logo, label text, color scheme, housing shape, port positions, port count or numbering, surface texture or finish.
+You may ONLY change: background scene, camera angle, lighting.
+The product must look IDENTICAL to the reference image - a 10-port USB-C desktop charging cabinet, black metal housing with blue dividers.
+
+[Lane M] Bright modern classroom scene, the 10-Port USB-C Desktop Charging Cabinet on a teacher's desk with tablets neatly stored nearby, clean minimal background, morning light, product centered as the visual focus
+10-Port USB-C Desktop Charging Cabinet -- CRITICAL: same colors, same materials, same finish, same design, do not modify any detail
+IMPORTANT: Do NOT render any text, letters, numbers, or labels in the generated image. Leave clean negative space in the composition for text overlay in post-production.
+shot on Sony A7R V, 85mm f/2.0 lens, natural diffused studio lighting, authentic commercial product photography, true-to-life colors, no heavy post-processing, realistic surface texture, professional e-commerce visual style.
+
+Negative prompt: AI-generated look, artificial, CGI quality, 3D render, synthetic texture, oversaturated, HDR, heavy vignette, heavy post-processing, excessive lens flare, low resolution, blurry, deformed, watermark, text, signature, text distortion, bad typography, cheap look, cartoon`,
+banner_wide: `STYLE LOCK (shared across all images) -- Brand: MANHATTAN. Palette: #F4F6F8, #1F2933, #2F80ED. Lighting: neutral, clean studio lighting. Mood: modern, professional, trustworthy. Keep color grading, lighting direction and overall art direction consistent across every image in this set.
+No style drift: all images in this set must keep the same palette, lighting direction, color grading and art direction as the STYLE LOCK above. Do not introduce new color themes, lighting moods or decorative styles.
+
+CRITICAL HIGHEST PRIORITY: Product reference image is provided.
+You MUST use the reference image as the EXACT basis for the product.
+Keep EXACT same: housing outline and form factor, all colors and surface finish, logo placement and label artwork letter by letter, port layout and connector types.
+DO NOT change: the logo, label text, color scheme, housing shape, surface texture or finish.
+You may ONLY change: background scene, camera angle, lighting.
+
+[Lane P] Ultra-wide e-commerce hero banner composition, the 10-Port USB-C Desktop Charging Cabinet positioned on the right third of the frame on a clean gradient studio background, large empty negative space on the left for headline text, soft studio lighting, minimal, premium, high-end catalog style
+10-Port USB-C Desktop Charging Cabinet -- CRITICAL: same colors, same materials, same finish, same design, do not modify any detail
+IMPORTANT: Do NOT render any text, letters, numbers, or labels in the generated image. Leave clean negative space in the composition for text overlay in post-production.
+shot on Sony A7R V, 85mm f/2.0 lens, natural diffused studio lighting, authentic commercial product photography, true-to-life colors, professional e-commerce visual style.
+
+Negative prompt: AI-generated look, artificial, CGI quality, 3D render, synthetic texture, oversaturated, HDR, heavy vignette, low resolution, blurry, deformed, watermark, text, signature, cheap look, cartoon`,
+detail_ports: `STYLE LOCK (shared across all images) -- Brand: MANHATTAN. Palette: #F4F6F8, #1F2933, #2F80ED. Lighting: neutral, clean studio lighting. Mood: modern, professional, trustworthy. Keep color grading, lighting direction and overall art direction consistent across every image in this set.
+No style drift: all images in this set must keep the same palette, lighting direction, color grading and art direction as the STYLE LOCK above.
+
+CRITICAL HIGHEST PRIORITY: Product reference image is provided.
+You MUST use the reference image as the EXACT basis for the product.
+Keep EXACT same: port layout and connector types, port count and numbering, button and LED indicator positions, all colors and surface finish.
+DO NOT change: port positions, port count or numbering, surface texture or finish.
+You may ONLY change: background scene, camera angle, lighting.
+
+[Lane M] Extreme close-up of the 10-Port USB-C Desktop Charging Cabinet's front USB-C ports and LED indicators, dark neutral background, soft rim lighting tracing the product edges, sharp focus on port detail and build quality
+10-Port USB-C Desktop Charging Cabinet -- CRITICAL: same colors, same materials, same finish, same design, do not modify any detail
+IMPORTANT: Do NOT render any text, letters, numbers, or labels in the generated image.
+shot on Sony A7R V, 85mm f/2.0 lens, natural diffused studio lighting, authentic commercial product photography, true-to-life colors, realistic surface texture, professional e-commerce visual style.
+
+Negative prompt: AI-generated look, artificial, CGI quality, 3D render, synthetic texture, oversaturated, HDR, low resolution, blurry, blurry edges, plastic texture, deformed, watermark, text, cheap look, cartoon`,
+season_poster: `STYLE LOCK (shared across all images) -- Brand: MANHATTAN. Palette: #F4F6F8, #1F2933, #2F80ED. Lighting: neutral, clean studio lighting. Mood: modern, professional, trustworthy. Keep color grading, lighting direction and overall art direction consistent across every image in this set.
+No style drift: all images in this set must keep the same palette, lighting direction, color grading and art direction as the STYLE LOCK above. Do not introduce new color themes, lighting moods or decorative styles.
+
+CRITICAL HIGHEST PRIORITY: Product reference image is provided.
+You MUST use the reference image as the EXACT basis for the product.
+Keep EXACT same: housing outline and form factor, all colors and surface finish, logo placement and label artwork letter by letter.
+DO NOT change: the logo, label text, color scheme, housing shape, surface texture or finish.
+You may ONLY change: background scene, camera angle, lighting.
+
+[Lane M] Seasonal poster background, cozy Christmas scene with soft bokeh lights and pine elements, the 10-Port USB-C Desktop Charging Cabinet placed as the hero with generous negative space for headline text
+10-Port USB-C Desktop Charging Cabinet -- CRITICAL: same colors, same materials, same finish, same design, do not modify any detail
+IMPORTANT: Do NOT render any text, letters, numbers, or labels in the generated image. Leave clean negative space in the composition for text overlay in post-production.
+shot on Sony A7R V, 85mm f/2.0 lens, natural diffused studio lighting, authentic commercial product photography, true-to-life colors, professional e-commerce visual style.
+
+Negative prompt: AI-generated look, artificial, CGI quality, 3D render, synthetic texture, oversaturated, HDR, heavy vignette, low resolution, blurry, deformed, watermark, text, signature, cluttered holiday decorations covering product, cheap look, cartoon`
+};
+
+// 复制完整 prompt
+document.querySelectorAll('.copy-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var id = btn.getAttribute('data-tpl');
+    var done = function(){ var t = btn.textContent; btn.textContent = '已复制 ✓'; setTimeout(function(){ btn.textContent = t; }, 1600); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(PROMPTS[id] || '').then(done, done);
+    } else { done(); }
+  });
+});
+
+// 收藏星标切换
+document.querySelectorAll('.star').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var on = btn.classList.toggle('on');
+    btn.textContent = on ? '★ 已收藏' : '☆ 收藏';
+  });
+});
+
+// 风格变体单选
+document.querySelectorAll('.variant-pills').forEach(function(group){
+  group.addEventListener('click', function(e){
+    var b = e.target.closest('.vpill');
+    if (!b) return;
+    group.querySelectorAll('.vpill').forEach(function(x){ x.classList.remove('sel'); });
+    b.classList.add('sel');
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+id: locks_3c
+version: 1
+changelog:
+  - "v1: 从 prompts.py LOCK_WORDS_3C_KEEP / LOCK_WORDS_3C_DO_NOT 迁移；整表引用（不做 keep_add/keep_remove 差量，等第二个品类再说）"
+
+# 六步锁：优先级声明 -> 锚定参考图 -> 锁定清单 -> 否定清单 -> 白名单 -> 身份断言
+# 3C 锁定词（服饰版 silhouette/neckline/sleeves/hem 的 3C 改写）
+keep_base:
+  - housing outline and form factor
+  - all colors and surface finish
+  - logo placement and label artwork, letter by letter, fully legible
+  - port layout and connector types
+  - button and LED indicator positions
+  - port count and numbering
+  - cable routing and connector shape
+do_not_base:
+  - the logo, label text, color scheme, housing shape
+  - port positions, port count or numbering
+  - surface texture or finish
+lock_template: "CRITICAL HIGHEST PRIORITY: Product reference image is provided.\nYou MUST use the reference image as the EXACT basis for the product.\nKeep EXACT same: $keep_list.\nDO NOT change: $do_not_list.\nYou may ONLY change: background scene, camera angle, lighting.\nThe product must look IDENTICAL to the reference image - $identity."

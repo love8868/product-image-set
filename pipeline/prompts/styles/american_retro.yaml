@@ -1,0 +1,11 @@
+id: american_retro
+name_zh: 美式复古风
+style_en: American retro office, dark blue walls, cognac leather, brass lamp, brick
+  accents
+mood: vintage, bold, masculine
+palette:
+- '#1E2A3A'
+- '#8B5A2B'
+- '#C9A227'
+lighting: warm tungsten lamp light
+version: 1

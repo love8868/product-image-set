@@ -1,0 +1,11 @@
+id: cream
+name_zh: 奶油风
+style_en: cream style interior, curved arches, cream white, soft boucle fabric, warm
+  sunlight
+mood: soft, cozy, healing
+palette:
+- '#FBF6EF'
+- '#E8DCC8'
+- '#C4A77D'
+lighting: warm sunlight
+version: 1

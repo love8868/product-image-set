@@ -1,0 +1,11 @@
+id: new_chinese
+name_zh: 新中式
+style_en: new Chinese style interior, dark walnut wood, ink black, rice white, lattice
+  screen details
+mood: oriental, composed, refined
+palette:
+- '#F5F0E6'
+- '#3E2F23'
+- '#1A1A1A'
+lighting: warm soft side light
+version: 1

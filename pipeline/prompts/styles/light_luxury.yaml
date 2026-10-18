@@ -1,0 +1,11 @@
+id: light_luxury
+name_zh: 轻奢风
+style_en: quiet luxury interior, champagne gold accents, white marble, emerald green,
+  soft warm lighting
+mood: understated luxury, elegant
+palette:
+- '#F5F1E8'
+- '#C9A227'
+- '#0F4D2E'
+lighting: soft warm lighting
+version: 1

@@ -1,0 +1,11 @@
+id: dark_premium
+name_zh: 暗黑质感风
+style_en: dark premium product shot, charcoal background, dramatic rim lighting, black
+  metal textures
+mood: premium, dramatic
+palette:
+- '#141414'
+- '#2B2B2B'
+- '#E8730C'
+lighting: dramatic rim lighting
+version: 1

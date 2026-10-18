@@ -1,0 +1,11 @@
+id: tech_future
+name_zh: 科技未来风
+style_en: futuristic minimalist workspace, dark tones, neon blue ambient light, glass
+  and metal
+mood: futuristic, high-tech
+palette:
+- '#14161C'
+- '#2F80ED'
+- '#9AA4B2'
+lighting: neon blue ambient light
+version: 1

@@ -1,0 +1,20 @@
+id: usage_steps
+version: 1
+changelog:
+- 'v1: v0.3.0 新增模板（搬运工竞品调研）'
+category:
+- general
+slot: extra
+trigger: manual
+order: 90
+lane: M
+provider: openai
+size:
+- 1024
+- 1024
+layout_target: amazon_extra
+scene_en: step-by-step instructional illustration, numbered 1-2-3 panels, $pt in use,
+  clean flat style, generous white space
+composition: 三格步骤：拿→用→完成；数字后期叠字更稳
+negative_add: []
+name_zh: 使用步骤

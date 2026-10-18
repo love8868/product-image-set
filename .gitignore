@@ -1,0 +1,6 @@
+dist/
+build/
+__pycache__/
+*.pyc
+products/
+app/__pycache__/

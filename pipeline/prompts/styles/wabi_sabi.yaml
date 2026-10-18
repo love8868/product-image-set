@@ -1,0 +1,11 @@
+id: wabi_sabi
+name_zh: 侘寂风
+style_en: wabi-sabi interior, micro-cement walls, earth tones, raw textures, handmade
+  ceramics
+mood: rustic premium, wabi-sabi
+palette:
+- '#E5DDD2'
+- '#A89B8C'
+- '#5C554B'
+lighting: diffused natural light
+version: 1

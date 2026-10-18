@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>文案 · {{ filename }} · 产品详情套图工具</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="logo">产品详情套图工具</span>
+    <span class="sub">MANHATTAN · INTELLINET</span>
+    <a class="back" href="{{ url_for('results', handle=handle) }}">← 返回任务结果</a>
+  </div>
+</header>
+
+<div class="page doc-page">
+  <div class="page-head">
+    <div class="crumb">{{ handle }} / {{ filename }}</div>
+    <h1>文案阅读</h1>
+    <div class="orange-rule"></div>
+    <p>每节右上角可复制本节。数字/规格全部来自官网；标 [NEEDS-REVIEW] 的需人工核对后才能用。</p>
+  </div>
+
+  <div class="doc-body">
+    {{ body|safe }}
+  </div>
+
+  <div class="btn-row">
+    <a class="btn-ghost" href="{{ url_for('results', handle=handle) }}">← 返回任务结果</a>
+  </div>
+</div>
+
+<script>
+// 每节复制：取 section 内文本（去掉按钮文字）
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const sec = btn.closest('.doc-sec');
+    const clone = sec.cloneNode(true);
+    clone.querySelectorAll('.copy-btn').forEach(b => b.remove());
+    const text = clone.innerText.trim();
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.textContent = '已复制 ✓';
+    } catch (e) {
+      // fallback：选中文本提示手动复制
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); btn.textContent = '已复制 ✓'; }
+      catch (err) { alert('复制失败，请手动选择复制'); }
+      ta.remove();
+    }
+    setTimeout(() => { btn.textContent = '复制本节'; }, 2000);
+  });
+});
+</script>
+
+</body>
+</html>

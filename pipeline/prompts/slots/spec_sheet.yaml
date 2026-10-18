@@ -1,0 +1,23 @@
+id: spec_sheet
+version: 1
+changelog:
+- 'v1: v0.3.0 新增模板（搬运工竞品调研）'
+category:
+- general
+slot: extra
+trigger: manual
+order: 100
+lane: M
+provider: openai
+size:
+- 1024
+- 1024
+layout_target: amazon_extra
+scene_en: technical specification sheet layout, $pt small at top, icons plus data
+  rows, blueprint accents, dark blue background
+composition: 参数表底图；数字一律后期叠字，AI 不画数字
+negative_add:
+- no fake numbers
+- no distorted text
+- no gibberish text
+name_zh: 参数信息图

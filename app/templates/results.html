@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>任务结果 · 产品详情套图工具</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="logo">产品详情套图工具</span>
+    <span class="sub">MANHATTAN · INTELLINET</span>
+    <a class="back" href="{{ url_for('index') }}">← 返回新建任务</a>
+  </div>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <h1>任务结果</h1>
+    <div class="orange-rule"></div>
+    <p>{{ handle }} · {{ season_label }} · {{ theme_label }}</p>
+  </div>
+
+  <!-- 任务状态（JS 每 2s 轮询 /api/status 更新） -->
+  <section class="card">
+    <h2>任务状态</h2>
+    <p class="hint" id="status-hint">运行中，页面会自动刷新进度。</p>
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span class="pct" id="pct">{{ pct }}%</span>
+        <span class="txt" id="ptxt">已完成 {{ done_count }} / {{ total }} 模块</span>
+      </div>
+      <div class="progress"><div class="fill{% if state == 'running' %} running{% endif %}" id="pfill" style="width:{{ pct }}%"></div></div>
+    </div>
+    <ul class="mod-status" id="module-status">
+      {% for m in modules %}
+      <li class="st-{{ module_status.get(m, 'pending') }}" data-module="{{ m }}"><span class="dot"></span><span class="name">{{ module_names.get(m, m) }}</span><span class="en">{{ m }}</span><span class="pill">{{ module_labels.get(m, '等待中') }}</span></li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <!-- 运行日志（F3：实时滚动；增补二：关键行/全文切换；并入3：按模块分组折叠） -->
+  <section class="card">
+    <h2>运行日志</h2>
+    <p class="hint">默认只看关键行（报错 / 重试 / 下载进度 / 模块起止）。</p>
+    <div class="log-toolbar">
+      <button id="log-toggle" class="btn-ghost" type="button">显示完整日志</button>
+      <span id="log-err-jump" style="display:none"></span>
+    </div>
+    <div id="log-box" class="log-box"><p class="hint">等待日志…</p></div>
+  </section>
+
+  <!-- 成果图片 -->
+  <section class="card">
+    <h2>成品图</h2>
+    <p class="hint">final/ · 点击查看大图。任务完成后自动刷新。</p>
+    <div class="shot-grid">
+      {% for img in images %}
+      <div class="shot"><div class="thumb"><a href="{{ img.url }}" target="_blank"><img src="{{ img.url }}" alt="{{ img.name }}" loading="lazy"></a></div><div class="fname">{{ img.name }}</div></div>
+      {% else %}
+      <p class="hint">成品图尚未生成。</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- 文案与文档 -->
+  <section class="card">
+    <h2>文案与文档</h2>
+    <p class="hint">各模块产出的文案和验收清单。</p>
+    <ul class="entry-list">
+      {% for d in docs %}
+      <li>
+        {% if d.exists %}
+        <a href="{{ d.url }}" target="_blank"><span class="ico">{{ d.ico }}</span><span><span class="t">{{ d.title }}</span><br><span class="d">{{ d.desc }}</span></span><span class="go">→</span></a>
+        {% else %}
+        <a class="disabled"><span class="ico">{{ d.ico }}</span><span><span class="t">{{ d.title }}</span><br><span class="d">{{ d.desc }}（尚未生成）</span></span><span class="go">·</span></a>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <div class="btn-row">
+    <a class="btn-primary" href="/api/package?handle={{ handle }}">打包下载 ZIP</a>
+    <a class="btn-ghost" href="{{ url_for('prompts_page', handle=handle) }}">提示词库</a>
+    <a class="btn-ghost" href="{{ url_for('index') }}">← 返回新建任务</a>
+  </div>
+</div>
+
+<script>
+const JOB_ID = {{ job_id|tojson }};
+let finished = {{ 'true' if state in ('done', 'failed') else 'false' }};
+// 增补二：关键行正则（报错/重试/下载进度/模块起止/完成）
+const KEY_RE = /error|fail|失败|超时|重试|retry|exception|traceback|中止|abort|^\[run\]|^\[ingest\] 下载|完成/i;
+const ERR_RE = /error|fail|失败|超时|traceback/i;
+let showFull = false;
+let lastLog = [];
+let runningModule = '';
+
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// 军师调整点 6：分组 → 组内过滤 → 空组隐藏 → 默认展开含错误/运行中组
+function renderLog() {
+  const box = document.getElementById('log-box');
+  const groups = {}, order = [];
+  for (const line of lastLog) {
+    const m = line.match(/^\[([a-z_]+)\]/);
+    const g = m ? m[1] : '其他';
+    if (!groups[g]) { groups[g] = []; order.push(g); }
+    groups[g].push(line);
+  }
+  let errCount = 0, html = '';
+  for (const g of order) {
+    let lines = groups[g];
+    if (!showFull) lines = lines.filter(l => KEY_RE.test(l));
+    if (!lines.length) continue;
+    const hasErr = lines.some(l => ERR_RE.test(l));
+    errCount += lines.filter(l => ERR_RE.test(l)).length;
+    const open = (hasErr || g === runningModule) ? ' open' : '';
+    html += '<details class="log-group"' + open + '><summary>' +
+            escapeHtml(g) + '（' + lines.length + '）</summary>';
+    for (const l of lines) {
+      html += ERR_RE.test(l) ? '<div class="log-err">' + escapeHtml(l) + '</div>'
+                            : '<div>' + escapeHtml(l) + '</div>';
+    }
+    html += '</details>';
+  }
+  box.innerHTML = html || '<p class="hint">暂无日志。</p>';
+  const jump = document.getElementById('log-err-jump');
+  if (errCount > 0) {
+    jump.style.display = '';
+    jump.innerHTML = '<a href="#" id="log-err-link">' + errCount + ' 个错误，点击定位</a>';
+    document.getElementById('log-err-link').onclick = (e) => {
+      e.preventDefault();
+      const el = box.querySelector('.log-err');
+      if (el) el.scrollIntoView({block: 'center'});
+    };
+  } else {
+    jump.style.display = 'none';
+  }
+  box.scrollTop = box.scrollHeight;
+}
+
+document.getElementById('log-toggle').onclick = () => {
+  showFull = !showFull;
+  document.getElementById('log-toggle').textContent =
+    showFull ? '只看关键行' : '显示完整日志';
+  renderLog();  // toggle 切换 = 全量重渲染
+};
+
+async function poll() {
+  if (finished || !JOB_ID) return;
+  try {
+    const r = await fetch('/api/status?job_id=' + encodeURIComponent(JOB_ID));
+    const j = await r.json();
+    if (!r.ok) return;
+    document.getElementById('pct').textContent = j.pct + '%';
+    document.getElementById('ptxt').textContent = '已完成 ' + j.done_count + ' / ' + j.total + ' 模块';
+    const fill = document.getElementById('pfill');
+    fill.style.width = j.pct + '%';
+    fill.className = 'fill ' + (j.state === 'running' ? 'running' : '');
+    runningModule = '';
+    for (const [m, st] of Object.entries(j.modules)) {
+      const li = document.querySelector('li[data-module="' + m + '"]');
+      if (li) {
+        li.className = 'st-' + st.cls;
+        li.querySelector('.pill').textContent = st.label;
+      }
+      if (st.cls === 'running' && !runningModule) runningModule = m;
+    }
+    if (j.log_tail) { lastLog = j.log_tail; renderLog(); }
+    if (j.state === 'done' || j.state === 'failed') {
+      finished = true;
+      document.getElementById('status-hint').textContent =
+        j.state === 'done' ? '任务完成。' : '任务失败，请查看日志。';
+      location.reload();
+    }
+  } catch (e) { /* 下一轮重试 */ }
+  if (!finished) setTimeout(poll, 2000);
+}
+if (JOB_ID && !finished) setTimeout(poll, 2000);
+else document.getElementById('status-hint').textContent =
+  finished && {{ 'true' if state == 'failed' else 'false' }} ? '任务失败，请查看日志。' : '任务完成。';
+</script>
+
+</body>
+</html>

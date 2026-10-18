@@ -1,0 +1,20 @@
+id: unboxing
+version: 1
+changelog:
+- 'v1: v0.3.0 新增模板（搬运工竞品调研）'
+category:
+- general
+slot: extra
+trigger: manual
+order: 120
+lane: M
+provider: openai
+size:
+- 1024
+- 1024
+layout_target: amazon_extra
+scene_en: open box packaging shot, $pt and accessories neatly arranged, top-down flat
+  lay, bright clean background
+composition: 俯拍平铺：主机+配件整齐陈列
+negative_add: []
+name_zh: 开箱包装

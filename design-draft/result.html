@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>任务结果 · 套图工坊</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="index.html">套图工坊</a>
+    <span class="sub">MANHATTAN · INTELLINET</span>
+    <nav class="nav">
+      <a href="index.html">← 返回首页</a>
+      <a href="prompts.html">提示词库</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <div class="crumb"><a href="index.html">← 返回历史任务</a> / 10-Port USB-C 桌面充电柜</div>
+    <h1>任务结果</h1>
+    <div class="orange-rule"></div>
+    <p>SKU 181488 · 圣诞 · Manhattan 浅色 · 试运行 · 2026-10-19 00:02 完成</p>
+  </div>
+
+  <!-- ============ 任务状态 ============ -->
+  <section class="card">
+    <h2>任务状态</h2>
+    <p class="hint">9 个模块全部完成，8 张成品图已就绪。</p>
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span class="pct">100%</span>
+        <span class="txt">已完成 9 / 9 模块</span>
+      </div>
+      <div class="progress"><div class="fill" style="width:100%"></div></div>
+    </div>
+    <ul class="mod-status">
+      <li class="st-done"><span class="dot"></span>素材入库</li>
+      <li class="st-done"><span class="dot"></span>分析</li>
+      <li class="st-done"><span class="dot"></span>策划</li>
+      <li class="st-done"><span class="dot"></span>文案</li>
+      <li class="st-done"><span class="dot"></span>运营文案</li>
+      <li class="st-done"><span class="dot"></span>抖音文案</li>
+      <li class="st-done"><span class="dot"></span>生图</li>
+      <li class="st-done"><span class="dot"></span>排版</li>
+      <li class="st-done"><span class="dot"></span>校验</li>
+    </ul>
+  </section>
+
+  <!-- ============ 实时日志 ============ -->
+  <section class="card">
+    <h2>运行日志</h2>
+    <p class="hint">每一步在干什么，这里实时滚动。卡住时先看这里。</p>
+    <div class="log-tools">
+      <button class="log-toggle">只看关键行</button>
+    </div>
+    <div class="logbox" id="logbox">
+      <details class="log-group">
+        <summary><span>[run]</span><span class="lg-state">已完成</span></summary>
+        <div class="lg-body"><span class="dim">执行顺序: ingest, analyze, plan, copy, ops_copy, douyin, generate, layout, validate</span>
+<span class="ok">完成: 9 个模块</span></div>
+      </details>
+      <details class="log-group" open>
+        <summary><span>[ingest]</span><span class="lg-state">已完成 · 重试 1 次</span></summary>
+        <div class="lg-body"><span class="dim">GET https://manhattanproducts.eu/products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488.json</span>
+<span class="ok">产品信息拉取成功，12 张原图</span>
+<span class="dim">下载 1/12 raw/01.jpg · 已用 8 秒</span>
+<span class="dim">下载 2/12 raw/02.jpg · 已用 11 秒</span>
+<span class="warn">下载 3/12 raw/03.jpg … 超时，重试 1/3</span>
+<span class="dim">下载 3/12 raw/03.jpg · 已用 21 秒</span>
+<span class="dim">下载 12/12 raw/12.jpg · 已用 96 秒</span></div>
+      </details>
+      <details class="log-group">
+        <summary><span>[analyze]</span><span class="lg-state">已完成</span></summary>
+        <div class="lg-body"><span class="ok">事实分级完成：official 23 条 / visible 11 条 / inferred 4 条（未进文案）</span></div>
+      </details>
+      <details class="log-group">
+        <summary><span>[plan]</span><span class="lg-state">已完成</span></summary>
+        <div class="lg-body"><span class="ok">三型诊断：痛点型 65% → 12 图位规划完成</span></div>
+      </details>
+      <details class="log-group">
+        <summary><span>[copy]</span><span class="lg-state">已完成</span></summary>
+        <div class="lg-body"><span class="ok">文案终稿写入 copy.md（Amazon 5 条 / 京东 5 条 / 海报 / Banner）</span></div>
+      </details>
+      <details class="log-group">
+        <summary><span>[ops_copy]</span><span class="lg-state">已完成</span></summary>
+        <div class="lg-body"><span class="ok">运营文案包写入 ops_copy.md + ops-checklist.md</span></div>
+      </details>
+      <details class="log-group">
+        <summary><span>[douyin]</span><span class="lg-state">已完成</span></summary>
+        <div class="lg-body"><span class="ok">口播脚本 + 话题写入 douyin_copy.md</span></div>
+      </details>
+      <details class="log-group">
+        <summary><span>[generate]</span><span class="lg-state">已完成</span></summary>
+        <div class="lg-body"><span class="dim">试运行：prompt 写入 prompts/，Pillow 生成占位底图 → draft/</span></div>
+      </details>
+      <details class="log-group">
+        <summary><span>[layout]</span><span class="lg-state">已完成</span></summary>
+        <div class="lg-body"><span class="dim">叠字排版：8 张成品图 → final/</span></div>
+      </details>
+      <details class="log-group">
+        <summary><span>[validate]</span><span class="lg-state">已完成</span></summary>
+        <div class="lg-body"><span class="ok">8/8 校验通过 → CHECKLIST.md</span></div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ 成品图 ============ -->
+  <section class="card">
+    <h2>成品图</h2>
+    <p class="hint">8 张 · 点击放大查看。</p>
+    <div class="pkg-row">
+      <a class="btn-primary" href="#">⬇ 打包下载 ZIP</a>
+      <span class="hint">8 张成品图 + 文案终稿 + 运营包 + 验收清单 + 展示页，一次拿走去上架。</span>
+    </div>
+    <div class="shot-grid">
+      <div class="shot" data-cap="Amazon 主图 · 纯白底实拍"><div class="thumb"><img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/amazon_main.jpg" alt="Amazon 主图"></div><div class="fname"><b>Amazon 主图</b>amazon_main.jpg</div></div>
+      <div class="shot" data-cap="京东主图 · 干净首图加卖点徽章"><div class="thumb"><img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/jd_main.jpg" alt="京东主图"></div><div class="fname"><b>京东主图</b>jd_main.jpg</div></div>
+      <div class="shot" data-cap="场景图 · 一次充 10 台"><div class="thumb"><img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/amazon_extra_1.jpg" alt="场景图1"></div><div class="fname"><b>场景图 · 结论先行</b>amazon_extra_1.jpg</div></div>
+      <div class="shot" data-cap="信息图 · 10 个 USB-C 接口卖点陈列"><div class="thumb"><img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/amazon_extra_2.jpg" alt="场景图2"></div><div class="fname"><b>信息图 · 卖点陈列</b>amazon_extra_2.jpg</div></div>
+      <div class="shot" data-cap="京东详情图 · 卖点加规格说明"><div class="thumb"><img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/jd_detail.jpg" alt="京东详情图"></div><div class="fname"><b>京东详情图</b>jd_detail.jpg</div></div>
+      <div class="shot" data-cap="官网首页大图 · 2000 × 440"><div class="thumb"><img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/web_banner.jpg" alt="官网首页大图"></div><div class="fname"><b>官网首页大图</b>web_banner.jpg</div></div>
+      <div class="shot" data-cap="手机端 · 1000 × 900"><div class="thumb"><img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/mobile.jpg" alt="手机端"></div><div class="fname"><b>手机端</b>mobile.jpg</div></div>
+      <div class="shot" data-cap="圣诞海报 · 1080 × 1440"><div class="thumb"><img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/season_christmas.jpg" alt="圣诞海报"></div><div class="fname"><b>圣诞海报</b>season_christmas.jpg</div></div>
+    </div>
+  </section>
+
+  <!-- ============ 文案与文档 ============ -->
+  <section class="card">
+    <h2>文案与文档</h2>
+    <p class="hint">点开即是排版好的阅读页，可直接复制使用。</p>
+    <div class="doc-cards">
+      <a class="doc-card" href="doc.html">
+        <span class="ico">文</span>
+        <span><span class="t">文案终稿</span><br><span class="d">Amazon 五点 / 京东卖点 / 海报文案 / Banner 文案</span></span>
+        <span class="go">→</span>
+      </a>
+      <a class="doc-card" href="doc.html">
+        <span class="ico">营</span>
+        <span><span class="t">运营文案包</span><br><span class="d">搜索词 / A+ 页面 / 京东商详 / 上架 checklist</span></span>
+        <span class="go">→</span>
+      </a>
+      <a class="doc-card" href="doc.html">
+        <span class="ico">抖</span>
+        <span><span class="t">抖音文案</span><br><span class="d">发布文案 / 口播脚本 / 评论区话术 / 话题</span></span>
+        <span class="go">→</span>
+      </a>
+      <a class="doc-card" href="doc.html">
+        <span class="ico">验</span>
+        <span><span class="t">验收清单</span><br><span class="d">人工检查：逐项打勾确认再上架</span></span>
+        <span class="go">→</span>
+      </a>
+      <a class="doc-card" href="prompts.html#g-scene_office">
+        <span class="ico">词</span>
+        <span><span class="t">本次使用的提示词</span><br><span class="d">13 个图位模板 · 版本与完整 prompt，可复制复用</span></span>
+        <span class="go">→</span>
+      </a>
+      <a class="doc-card" href="job.html">
+        <span class="ico">卡</span>
+        <span><span class="t">本次任务的提示词卡</span><br><span class="d">代跑模式：复制 prompt / 上传回填图</span></span>
+        <span class="go">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ 六屏展示页 ============ -->
+  <section class="card">
+    <h2>六屏展示页</h2>
+    <p class="hint">由管线自动生成：按痛点型销售逻辑编排的落地页，可直接用作官网展示。</p>
+    <a class="showcase-card" href="showcase.html">
+      <span class="sc-thumbs">
+        <img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/amazon_main.jpg" alt="主图">
+        <img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/amazon_extra_1.jpg" alt="解法">
+        <img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/season_christmas.jpg" alt="节日">
+      </span>
+      <span class="sc-body">
+        <span class="t">showcase.html · 六屏落地页</span><br>
+        <span class="d">主图 → 痛点 → 解法 → 规格参数 → 节日行动号召 → 多端展示</span>
+      </span>
+      <span class="go">→</span>
+    </a>
+  </section>
+
+  <div class="btn-row">
+    <a class="btn-ghost" href="index.html">← 返回首页</a>
+  </div>
+</div>
+
+<!-- 灯箱 -->
+<div class="lightbox" id="lightbox">
+  <img id="lb-img" src="" alt="">
+  <div class="cap" id="lb-cap"></div>
+</div>
+
+<footer>
+  <div class="flogo">套图工坊</div>
+  <div>文案 + 设计 + 策划 + 运营 + 提示词 + 优化，一站式。</div>
+</footer>
+
+<script>
+// 日志自动滚到底
+var lb = document.getElementById('logbox');
+lb.scrollTop = lb.scrollHeight;
+// 灯箱：点开放大
+var overlay = document.getElementById('lightbox'),
+    big = document.getElementById('lb-img'),
+    cap = document.getElementById('lb-cap');
+document.querySelectorAll('.shot').forEach(function(s){
+  s.addEventListener('click', function(){
+    big.src = s.querySelector('img').src;
+    cap.textContent = s.getAttribute('data-cap') || '';
+    overlay.classList.add('open');
+  });
+});
+overlay.addEventListener('click', function(){ overlay.classList.remove('open'); });
+</script>
+
+</body>
+</html>

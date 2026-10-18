@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>提示词库 · 产品详情套图工具</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="logo">产品详情套图工具</span>
+    <span class="sub">MANHATTAN · INTELLINET</span>
+    <a class="back" href="{{ url_for('results', handle=handle) }}">← 返回任务结果</a>
+  </div>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <h1>提示词库</h1>
+    <div class="orange-rule"></div>
+    <p>验证好用的模板点 ★ 收藏，下次直接复用。主图为实拍直出（Tier 0），不走 AI。</p>
+  </div>
+
+  <!-- 收藏区（localStorage） -->
+  <section class="card" id="fav-section" style="display:none">
+    <h2>我的收藏 <span class="sub">（只存本机浏览器）</span></h2>
+    <div class="tpl-grid" id="fav-grid"></div>
+  </section>
+
+  <!-- 模板列表 -->
+  <section class="card">
+    <h2>全部模板 <span class="sub">（{{ templates|length }} 个，零硬编码）</span></h2>
+    <div class="tpl-grid">
+      {% for t in templates %}
+      <div class="tpl-card" data-tpl="{{ t.id }}">
+        <div class="tpl-head">
+          <b>{{ t.name_zh }}</b>
+          {% if t.recommended %}<span class="badge-rec">推荐</span>{% endif %}
+          <span class="pill">v{{ t.version }}</span>
+          <span class="pill">{{ t.trigger_zh }}</span>
+          {% if t.need_review %}<span class="pill pill-warn">人工核对数字</span>{% endif %}
+          <button class="fav-btn" data-tpl="{{ t.id }}" title="收藏">☆</button>
+        </div>
+        {% if t.image %}
+        <div class="tpl-img"><img src="{{ t.image }}" alt="{{ t.id }}" loading="lazy"></div>
+        {% endif %}
+        <p class="hint">{{ t.scene }}{% if not t.scene %}…{% endif %}</p>
+        {% if t.used_version %}
+        <p class="hint">本次已用版本：v{{ t.used_version }}</p>
+        {% endif %}
+        {% if t.changelog %}
+        <details class="changelog"><summary>版本变更</summary>
+          <ul>{% for c in t.changelog %}<li>{{ c }}</li>{% endfor %}</ul>
+        </details>
+        {% endif %}
+        {% if t.need_review %}
+        <p class="hint warn">建议 Tier 2 代跑 + 人工核对数字，AI 易编造数字/文字。</p>
+        {% endif %}
+        <div class="btn-row">
+          {% if t.prompt %}
+          <button class="btn-ghost copy-prompt" data-tpl="{{ t.id }}">复制完整 prompt</button>
+          {% else %}
+          <span class="hint">先跑 analyze 才能组装完整 prompt</span>
+          {% endif %}
+        </div>
+        <pre class="tpl-prompt" id="prompt-{{ t.id }}" style="display:none">{{ t.prompt or '' }}</pre>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- F6：muse 代跑 job 卡 -->
+  <section class="card">
+    <h2>代跑 job 卡</h2>
+    <p class="hint">三步流程：① 复制 prompt 去外部生图 → ② 上传回填 → ③ 继续跑排版出成品。</p>
+    {% if not has_jobs %}
+    <p class="hint">暂无 job 卡：试运行或 API 模式不产生 job 卡，切"内置生图（代跑）"才会生成。</p>
+    {% endif %}
+    <div class="tpl-grid">
+      {% for j in jobs %}
+      <div class="tpl-card" data-job="{{ j.job_id }}">
+        <div class="tpl-head">
+          <b>{{ j.job_id }}</b>
+          <span class="pill st-{{ 'done' if j.status == 'filled' else 'pending' }}">{{ j.status_zh }}</span>
+          <span class="pill">{{ j.template_id }} v{{ j.template_version }}</span>
+          <span class="pill">{{ j.lane }} · {{ j.size[0] }}×{{ j.size[1] }}</span>
+        </div>
+        {% if j.image %}
+        <div class="tpl-img"><img src="{{ j.image }}" alt="{{ j.job_id }}" loading="lazy"></div>
+        {% endif %}
+        <div class="btn-row">
+          <button class="btn-ghost copy-job" data-job="{{ j.job_id }}">复制 prompt</button>
+        </div>
+        <pre class="tpl-prompt" id="jobprompt-{{ j.job_id }}" style="display:none">{{ j.prompt or '' }}</pre>
+        {% if j.negative %}<p class="hint">negative: {{ j.negative[:120] }}…</p>{% endif %}
+        <div class="thumb-row">
+          {% for u in j.ref_urls %}<a href="{{ u }}" target="_blank"><img src="{{ u }}" alt="ref"></a>{% endfor %}
+          {% if j.mask_url %}<a href="{{ j.mask_url }}" target="_blank"><img src="{{ j.mask_url }}" alt="mask"></a>{% endif %}
+        </div>
+        {% if j.status != 'filled' %}
+        <div class="fill-row">
+          <input type="file" id="file-{{ j.job_id }}" accept=".jpg,.jpeg,.png">
+          <button class="btn-primary" data-fill="{{ j.job_id }}">上传回填</button>
+          <span class="hint" id="fillmsg-{{ j.job_id }}"></span>
+        </div>
+        {% else %}
+        <div class="btn-row">
+          <button class="btn-primary" data-relayout="{{ j.job_id }}">继续跑排版出成品</button>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <div class="btn-row">
+    <a class="btn-ghost" href="{{ url_for('results', handle=handle) }}">← 返回任务结果</a>
+  </div>
+</div>
+
+<script>
+const HANDLE = {{ handle|tojson }};
+
+// ---- 复制 prompt ----
+document.querySelectorAll('.copy-prompt').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const pre = document.getElementById('prompt-' + btn.dataset.tpl);
+    try { await navigator.clipboard.writeText(pre.textContent); btn.textContent = '已复制 ✓'; }
+    catch (e) { alert('复制失败，请手动选择复制'); }
+    setTimeout(() => { btn.textContent = '复制完整 prompt'; }, 2000);
+  });
+});
+document.querySelectorAll('.copy-job').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const pre = document.getElementById('jobprompt-' + btn.dataset.job);
+    try { await navigator.clipboard.writeText(pre.textContent); btn.textContent = '已复制 ✓'; }
+    catch (e) { alert('复制失败，请手动选择复制'); }
+    setTimeout(() => { btn.textContent = '复制 prompt'; }, 2000);
+  });
+});
+
+// ---- ★收藏（localStorage，不走后端） ----
+const FAV_KEY = 'taotu_favs';
+function getFavs() { try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); } catch (e) { return []; } }
+function saveFavs(f) { localStorage.setItem(FAV_KEY, JSON.stringify(f)); }
+function refreshFavs() {
+  const favs = getFavs();
+  document.querySelectorAll('.fav-btn').forEach(b => {
+    const on = favs.some(f => f.template_id === b.dataset.tpl);
+    b.textContent = on ? '★' : '☆';
+    b.classList.toggle('on', on);
+  });
+  const sec = document.getElementById('fav-section');
+  const grid = document.getElementById('fav-grid');
+  if (!favs.length) { sec.style.display = 'none'; return; }
+  sec.style.display = '';
+  grid.innerHTML = '';
+  for (const f of favs) {
+    const card = document.querySelector('.tpl-card[data-tpl="' + f.template_id + '"]');
+    const name = card ? card.querySelector('.tpl-head b').textContent : f.template_id;
+    const img = f.image ? '<div class="tpl-img"><img src="' + f.image + '" loading="lazy"></div>' : '';
+    const div = document.createElement('div');
+    div.className = 'tpl-card';
+    div.innerHTML = '<div class="tpl-head"><b>' + name + '</b><span class="pill">v' + f.version +
+      '</span><button class="fav-btn on" data-unfav="' + f.template_id + '">★</button></div>' + img;
+    grid.appendChild(div);
+  }
+  grid.querySelectorAll('[data-unfav]').forEach(b => {
+    b.addEventListener('click', () => {
+      saveFavs(getFavs().filter(f => f.template_id !== b.dataset.unfav));
+      refreshFavs();
+    });
+  });
+}
+document.querySelectorAll('.fav-btn[data-tpl]').forEach(b => {
+  b.addEventListener('click', () => {
+    const card = b.closest('.tpl-card');
+    let favs = getFavs();
+    if (favs.some(f => f.template_id === b.dataset.tpl)) {
+      favs = favs.filter(f => f.template_id !== b.dataset.tpl);
+    } else {
+      const img = card.querySelector('.tpl-img img');
+      const ver = (card.querySelector('.tpl-head .pill') || {}).textContent || '';
+      favs.push({template_id: b.dataset.tpl, version: ver.replace('v', ''),
+                 image: img ? img.getAttribute('src') : null,
+                 note: '', starred_at: new Date().toISOString()});
+    }
+    saveFavs(favs);
+    refreshFavs();
+  });
+});
+refreshFavs();
+
+// ---- 回填上传 ----
+document.querySelectorAll('[data-fill]').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const jid = btn.dataset.fill;
+    const input = document.getElementById('file-' + jid);
+    const msg = document.getElementById('fillmsg-' + jid);
+    if (!input.files.length) { msg.textContent = '请先选择图片文件'; return; }
+    const fd = new FormData();
+    fd.append('handle', HANDLE);
+    fd.append('job_id', jid);
+    fd.append('image', input.files[0]);
+    btn.disabled = true;
+    msg.textContent = '上传校验中…';
+    try {
+      const r = await fetch('/api/fill', {method: 'POST', body: fd});
+      const j = await r.json();
+      msg.textContent = j.msg;
+      if (j.ok) { msg.textContent = '✓ ' + j.msg + '，3 秒后刷新'; setTimeout(() => location.reload(), 3000); }
+    } catch (e) { msg.textContent = '上传失败：' + e.message; }
+    btn.disabled = false;
+  });
+});
+
+// ---- 回填成功 → 继续跑 layout,validate ----
+document.querySelectorAll('[data-relayout]').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    if (!confirm('从 layout 开始继续跑排版和校验？')) return;
+    btn.disabled = true;
+    const form = new FormData();
+    form.append('product_input', HANDLE);
+    form.append('modules', 'layout');
+    form.append('modules', 'validate');
+    form.append('theme', {{ theme|tojson }});
+    try {
+      const r = await fetch('/api/run', {method: 'POST', body: form});
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || ('HTTP ' + r.status));
+      location.href = '/results?job_id=' + encodeURIComponent(j.job_id);
+    } catch (e) { alert('提交失败：' + e.message); btn.disabled = false; }
+  });
+});
+</script>
+
+</body>
+</html>

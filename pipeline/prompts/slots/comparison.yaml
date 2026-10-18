@@ -1,0 +1,23 @@
+id: comparison
+version: 1
+changelog:
+- 'v1: v0.3.0 新增模板（搬运工竞品调研）'
+category:
+- general
+slot: extra
+trigger: manual
+order: 70
+lane: M
+provider: openai
+size:
+- 1024
+- 1024
+layout_target: amazon_extra
+scene_en: split-screen comparison layout, our $pt on the left bright and premium,
+  generic competitor product on the right dull, clean divider line, no text in image
+composition: 左右分屏对比，左亮右暗；只出底图，文字后期叠
+negative_add:
+- no fake numbers
+- no distorted text
+- no gibberish text
+name_zh: 对比图

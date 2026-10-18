@@ -1,0 +1,20 @@
+id: brand_story
+version: 1
+changelog:
+- 'v1: v0.3.0 新增模板（搬运工竞品调研）'
+category:
+- general
+slot: extra
+trigger: manual
+order: 130
+lane: M
+provider: openai
+size:
+- 1024
+- 1024
+layout_target: amazon_extra
+scene_en: brand heritage visual, modern factory and lab imagery, warm trustworthy
+  tones, $pt subtly placed
+composition: 品牌背书氛围图；用于 A+/详情页尾段
+negative_add: []
+name_zh: 品牌故事

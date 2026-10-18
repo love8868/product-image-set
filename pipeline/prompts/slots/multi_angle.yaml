@@ -1,0 +1,20 @@
+id: multi_angle
+version: 1
+changelog:
+- 'v1: v0.3.0 新增模板（搬运工竞品调研）'
+category:
+- general
+slot: extra
+trigger: manual
+order: 60
+lane: M
+provider: openai
+size:
+- 1024
+- 1024
+layout_target: amazon_extra
+scene_en: three-quarter view product shot, 45-degree angle, $pt on light gray gradient
+  background, soft studio lighting, product fills 80% of frame
+composition: 产品 3/4 侧面角度；layout 备用 amazon_extra
+negative_add: []
+name_zh: 多角度展示

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>套图工坊 · 新建任务</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="index.html">套图工坊</a>
+    <span class="sub">MANHATTAN · INTELLINET</span>
+    <nav class="nav">
+      <a href="index.html" class="cur">首页</a>
+      <a href="prompts.html">提示词库</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <h1>新建任务</h1>
+    <div class="orange-rule"></div>
+    <p>填好产品和选项，点「开始生成」。模块可单选多选，前置依赖会自动补齐。</p>
+  </div>
+
+  <!-- ============ 新建任务 ============ -->
+  <section class="card">
+    <h2>产品</h2>
+    <p class="hint">从官网产品页自动抓取介绍、规格和产品图。</p>
+    <div class="field">
+      <label for="product_input">产品链接或编号</label>
+      <input type="text" id="product_input"
+             placeholder="manhattan-en-...-181488 或 https://manhattanproducts.eu/products/...（Intellinet 同理）">
+      <p class="hint" style="margin:8px 0 0">料号（如 181488）也可直接粘。示例：<a href="https://manhattanproducts.eu/products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488" target="_blank" rel="noopener">181488 · 10口USB-C桌面充电柜</a></p>
+      <p class="field-error"><span class="demo-tag">演示：报错样式</span>⚠ 无产品信息，可能是页面不对（请检查料号/链接）</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>模块选择</h2>
+    <p class="hint">勾选要跑的模块（默认全选）。没勾的必要模块会自动帮你勾上。</p>
+    <div class="mod-grid">
+      <label class="mod-item"><input type="checkbox" checked><span class="mod-box"><span class="t">素材入库</span><br><span class="d">官网抓图抓文案</span></span></label>
+      <label class="mod-item"><input type="checkbox" checked><span class="mod-box"><span class="t">分析</span><br><span class="d">事实提取分级</span></span></label>
+      <label class="mod-item"><input type="checkbox" checked><span class="mod-box"><span class="t">策划</span><br><span class="d">三型诊断 + 图位规划</span></span></label>
+      <label class="mod-item"><input type="checkbox" checked><span class="mod-box"><span class="t">文案</span><br><span class="d">主图文案 · 海报文案</span></span></label>
+      <label class="mod-item"><input type="checkbox" checked><span class="mod-box"><span class="t">运营文案</span><br><span class="d">A+ / 搜索词 / 上架包</span></span></label>
+      <label class="mod-item"><input type="checkbox" checked><span class="mod-box"><span class="t">抖音文案</span><br><span class="d">口播脚本 + 话题</span></span></label>
+      <label class="mod-item"><input type="checkbox" checked><span class="mod-box"><span class="t">生图</span><br><span class="d">AI 底图生成</span></span></label>
+      <label class="mod-item"><input type="checkbox" checked><span class="mod-box"><span class="t">排版</span><br><span class="d">叠字排版出成品</span></span></label>
+      <label class="mod-item"><input type="checkbox" checked><span class="mod-box"><span class="t">校验</span><br><span class="d">规范校验 + 清单</span></span></label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>三型配比</h2>
+    <p class="hint">策划时三种卖点类型的占比（总和须为 100）。不填则程序自动诊断。</p>
+    <div class="form-grid">
+      <div class="field">
+        <label for="ratio_pain">痛点型 <span class="sub">pain</span></label>
+        <input type="number" id="ratio_pain" value="60" min="0" max="100">
+      </div>
+      <div class="field">
+        <label for="ratio_visual">视觉型 <span class="sub">visual</span></label>
+        <input type="number" id="ratio_visual" value="30" min="0" max="100">
+      </div>
+      <div class="field">
+        <label for="ratio_emotion">情感型 <span class="sub">emotion</span></label>
+        <input type="number" id="ratio_emotion" value="10" min="0" max="100">
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>场景选择</h2>
+    <p class="hint">为产品选拍摄场景，可多选。推荐场景是按产品类型给的。</p>
+    <div class="field">
+      <label>推荐场景 <span class="sub">（可多选）</span></label>
+      <div class="variant-pills" data-vgroup="scene" data-multi="1">
+        <button type="button" class="vpill sel">办公室</button>
+        <button type="button" class="vpill sel">教室</button>
+        <button type="button" class="vpill">酒店前台</button>
+        <button type="button" class="vpill">会议室</button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="scene_custom">自定义场景</label>
+      <input type="text" id="scene_custom" placeholder="比如：机场贵宾厅休息区，写清楚地点+氛围">
+    </div>
+    <p class="hint" style="margin:0">场景只换背景，产品本身不变。</p>
+  </section>
+
+  <section class="card">
+    <h2>风格选择</h2>
+    <p class="hint">同一场景可换不同装修风格，产品本身不变，只换氛围。收藏过的模板（★）会优先用。</p>
+    <div class="field">
+      <label>预设风格 <span class="sub">（三选一）</span></label>
+      <div class="variant-pills" data-vgroup="style">
+        <button type="button" class="vpill sel">现代风 <span class="vtag">默认</span></button>
+        <button type="button" class="vpill">工业风</button>
+        <button type="button" class="vpill">北欧风</button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="style_custom">自定义风格</label>
+      <input type="text" id="style_custom" placeholder="比如：日式侘寂风">
+    </div>
+    <p class="hint" style="margin:0">上面选的是整套图的装修氛围。想看每张图具体用什么提示词、复制去外面生图，或把验证好用的存下来，去 <a href="prompts.html">提示词库</a>（共 13 个图位模板）。</p>
+  </section>
+
+  <section class="card">
+    <h2>强制重跑</h2>
+    <p class="hint">默认跳过已有产物的模块（省时间）。打开后全部模块重跑一遍。</p>
+    <div class="field" style="margin:0">
+      <label class="check-line">
+        <input type="checkbox">
+        强制重跑 <span class="sub">（已有成品也重新生成一遍）</span>
+      </label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>生成选项</h2>
+    <p class="hint">季节、品牌主题和生图通道。</p>
+    <div class="form-grid">
+      <div class="field">
+        <label for="season">季节 / 节日</label>
+        <select id="season">
+          <option>春</option><option>夏</option><option>秋</option><option>冬</option>
+          <option selected>圣诞</option><option>复活节</option><option>万圣节</option>
+          <option>黑五</option><option>新年</option><option>情人节</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="theme">品牌主题</label>
+        <select id="theme">
+          <option selected>Manhattan 浅色</option>
+          <option>Intellinet 深色</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="provider">生图通道</label>
+        <select id="provider">
+          <option selected>OpenAI</option>
+          <option>Gemini</option>
+          <option>OpenAI 兼容（自定义地址）</option>
+          <option>内置生图（代跑）</option>
+        </select>
+      </div>
+    </div>
+    <div class="field" style="margin-top:6px">
+      <label class="check-line">
+        <input type="checkbox" checked>
+        试运行 <span class="sub">（不调 API，不花钱）</span>
+      </label>
+      <p class="hint" style="margin:6px 0 0">试运行和正式跑的区别只有背景：试运行背景是占位色块，正式是 AI 实景，其余流程、文案、排版完全一样。</p>
+    </div>
+    <div class="form-grid-2" style="margin-top:6px">
+      <div class="field">
+        <label for="api_key_openai">OpenAI API Key <span class="sub">（可空）</span></label>
+        <input type="password" id="api_key_openai" placeholder="sk-...">
+      </div>
+      <div class="field">
+        <label for="api_key_gemini">Gemini API Key <span class="sub">（可空）</span></label>
+        <input type="password" id="api_key_gemini" placeholder="AIza...">
+      </div>
+    </div>
+    <p class="hint" style="margin:0">选哪个通道，就填哪个 Key；都不填只能试运行。不填 Key 也能跑：试运行走完全流程，只是背景用占位图。</p>
+  </section>
+
+  <div class="btn-row">
+    <a class="btn-primary" href="result.html">开始生成</a>
+  </div>
+
+  <!-- ============ 历史任务 ============ -->
+  <div class="sec-kicker"><span class="sec-num">记录</span><h2>历史任务</h2></div>
+  <p class="sec-lead">跑过的产品都在这里，关掉页面、重启程序都找得回来。点「查看结果」回到当时的成品和文案。</p>
+
+  <div class="job-list">
+    <div class="job-row">
+      <div class="job-thumb"><img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/amazon_main.jpg" alt="10口USB-C桌面充电柜"></div>
+      <div class="job-info">
+        <div class="jt">10-Port USB-C 桌面充电柜 <span style="font-weight:400;color:var(--muted)">· SKU 181488</span></div>
+        <div class="jm">2026-10-19 00:02 · 圣诞 · Manhattan 浅色 · 试运行 · 8 张成品图</div>
+      </div>
+      <div class="job-side">
+        <span class="pill done">已完成</span>
+        <a class="btn-ghost" href="result.html">查看结果 →</a>
+      </div>
+    </div>
+
+    <div class="job-row">
+      <div class="job-thumb"><img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/jd_main.jpg" alt="运行中示例"></div>
+      <div class="job-info">
+        <div class="jt">10-Port USB-C 桌面充电柜 <span style="font-weight:400;color:var(--muted)">· SKU 181488</span></div>
+        <div class="jm">2026-10-18 23:47 · 复活节 · Manhattan 浅色 · 已完成 4 / 9 模块</div>
+      </div>
+      <div class="job-side">
+        <span class="pill running">运行中 45%</span>
+        <a class="btn-ghost" href="result.html">查看进度 →</a>
+      </div>
+    </div>
+
+    <div class="job-row">
+      <div class="job-thumb"><img src="../products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488/final/mobile.jpg" alt="失败示例"></div>
+      <div class="job-info">
+        <div class="jt">Intellinet 8口千兆交换机 <span style="font-weight:400;color:var(--muted)">· SKU 560917</span></div>
+        <div class="jm">2026-10-17 21:30 · 冬季 · Intellinet 深色 · ingest 下载超时</div>
+      </div>
+      <div class="job-side">
+        <span class="pill failed">已失败</span>
+        <a class="btn-ghost" href="result.html">查看日志 →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="flogo">套图工坊</div>
+  <div>文案 + 设计 + 策划 + 运营 + 提示词 + 优化，一站式。</div>
+</footer>
+
+<script>
+// 风格变体单选 / 场景多选（data-multi="1" 的组可多选）
+document.querySelectorAll('.variant-pills').forEach(function(group){
+  var multi = group.hasAttribute('data-multi');
+  group.addEventListener('click', function(e){
+    var b = e.target.closest('.vpill');
+    if (!b) return;
+    if (multi) {
+      b.classList.toggle('sel');
+    } else {
+      group.querySelectorAll('.vpill').forEach(function(x){ x.classList.remove('sel'); });
+      b.classList.add('sel');
+    }
+  });
+});
+</script>
+
+</body>
+</html>

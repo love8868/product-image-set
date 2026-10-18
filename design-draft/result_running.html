@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>任务结果（运行中） · 套图工坊</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="index.html">套图工坊</a>
+    <span class="sub">MANHATTAN · INTELLINET</span>
+    <nav class="nav">
+      <a href="index.html">← 返回首页</a>
+      <a href="prompts.html">提示词库</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <div class="crumb"><a href="index.html">← 返回历史任务</a> / 10-Port USB-C 桌面充电柜</div>
+    <h1>任务结果</h1>
+    <div class="orange-rule"></div>
+    <p>SKU 181488 · 复活节 · Manhattan 浅色 · 试运行 · 进行中</p>
+  </div>
+
+  <!-- ============ 任务状态 ============ -->
+  <section class="card">
+    <h2>任务状态</h2>
+    <p class="hint">正在跑第 5 个模块，卡住超过 10 分钟先看下面的运行日志。</p>
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span class="pct">45%</span>
+        <span class="txt">已完成 4 / 9 模块</span>
+      </div>
+      <div class="progress"><div class="fill running" style="width:45%"></div></div>
+    </div>
+    <ul class="mod-status">
+      <li class="st-done"><span class="dot"></span>素材入库</li>
+      <li class="st-done"><span class="dot"></span>分析</li>
+      <li class="st-done"><span class="dot"></span>策划</li>
+      <li class="st-done"><span class="dot"></span>文案</li>
+      <li class="st-running"><span class="dot"></span>运营文案</li>
+      <li><span class="dot"></span>抖音文案</li>
+      <li><span class="dot"></span>生图</li>
+      <li><span class="dot"></span>排版</li>
+      <li><span class="dot"></span>校验</li>
+    </ul>
+  </section>
+
+  <!-- ============ 实时日志 ============ -->
+  <section class="card">
+    <h2>运行日志</h2>
+    <p class="hint">每一步在干什么，这里实时滚动。卡住时先看这里。</p>
+    <div class="log-tools">
+      <button class="log-toggle">只看关键行</button>
+      <a class="err-bar" href="#lg-ingest">⚠ 1 个错误，点击定位</a>
+    </div>
+    <div class="logbox" id="logbox">
+      <details class="log-group">
+        <summary><span>[run]</span><span class="lg-state">已完成</span></summary>
+        <div class="lg-body"><span class="dim">执行顺序: ingest, analyze, plan, copy, ops_copy, douyin, generate, layout, validate</span></div>
+      </details>
+      <details class="log-group" id="lg-ingest" open>
+        <summary><span>[ingest]</span><span class="lg-state">已完成 · 有 1 个错误</span></summary>
+        <div class="lg-body"><span class="dim">GET https://manhattanproducts.eu/products/manhattan-en-10-port-usb-c-desktop-charging-cabinet-30w-per-port-181488.json</span>
+<span class="ok">产品信息拉取成功，12 张原图</span>
+<span class="dim">下载 1/12 raw/01.jpg · 已用 8 秒</span>
+<span class="dim">下载 2/12 raw/02.jpg · 已用 11 秒</span>
+<span class="err">下载 3/12 raw/03.jpg … 失败：连接超时</span>
+<span class="warn">下载 3/12 raw/03.jpg … 重试 1/3</span>
+<span class="dim">下载 3/12 raw/03.jpg · 已用 21 秒</span>
+<span class="dim">下载 12/12 raw/12.jpg · 已用 96 秒</span></div>
+      </details>
+      <details class="log-group">
+        <summary><span>[analyze]</span><span class="lg-state">已完成</span></summary>
+        <div class="lg-body"><span class="ok">事实分级完成：official 23 条 / visible 11 条 / inferred 4 条（未进文案）</span></div>
+      </details>
+      <details class="log-group">
+        <summary><span>[plan]</span><span class="lg-state">已完成</span></summary>
+        <div class="lg-body"><span class="ok">三型诊断：痛点型 65% → 12 图位规划完成</span></div>
+      </details>
+      <details class="log-group">
+        <summary><span>[copy]</span><span class="lg-state">已完成</span></summary>
+        <div class="lg-body"><span class="ok">文案终稿写入（Amazon 5 条 / 京东 5 条 / 海报 / Banner）</span></div>
+      </details>
+      <details class="log-group" open>
+        <summary><span>[ops_copy]</span><span class="lg-state run">运行中</span></summary>
+        <div class="lg-body"><span class="dim">运营文案包生成中 …</span></div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ 成品图 ============ -->
+  <section class="card">
+    <h2>成品图</h2>
+    <p class="hint">任务完成后这里会显示 8 张成品图，点击放大查看。</p>
+    <p class="hint" style="margin:0">成品图尚未生成。</p>
+  </section>
+
+  <!-- ============ 文案与文档 ============ -->
+  <section class="card">
+    <h2>文案与文档</h2>
+    <p class="hint">任务完成后，点开即是排版好的阅读页，可直接复制使用。</p>
+    <div class="doc-cards">
+      <a class="doc-card" style="opacity:.45;pointer-events:none">
+        <span class="ico">文</span>
+        <span><span class="t">文案终稿</span><br><span class="d">尚未生成</span></span>
+        <span class="go">·</span>
+      </a>
+      <a class="doc-card" style="opacity:.45;pointer-events:none">
+        <span class="ico">营</span>
+        <span><span class="t">运营文案包</span><br><span class="d">尚未生成</span></span>
+        <span class="go">·</span>
+      </a>
+      <a class="doc-card" style="opacity:.45;pointer-events:none">
+        <span class="ico">抖</span>
+        <span><span class="t">抖音文案</span><br><span class="d">尚未生成</span></span>
+        <span class="go">·</span>
+      </a>
+      <a class="doc-card" style="opacity:.45;pointer-events:none">
+        <span class="ico">验</span>
+        <span><span class="t">验收清单</span><br><span class="d">尚未生成</span></span>
+        <span class="go">·</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="btn-row">
+    <a class="btn-ghost" href="index.html">← 返回首页</a>
+  </div>
+</div>
+
+<footer>
+  <div class="flogo">套图工坊</div>
+  <div>文案 + 设计 + 策划 + 运营 + 提示词 + 优化，一站式。</div>
+</footer>
+
+</body>
+</html>

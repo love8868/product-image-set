@@ -1,0 +1,20 @@
+id: pain_scene
+version: 1
+changelog:
+- 'v1: v0.3.0 新增模板（搬运工竞品调研）'
+category:
+- general
+slot: extra
+trigger: manual
+order: 80
+lane: M
+provider: openai
+size:
+- 1024
+- 1024
+layout_target: amazon_extra
+scene_en: messy cable desk before-use scene, tangled cables and multiple chargers,
+  frustrated atmosphere, cool blue tones, $pt absent (problem only)
+composition: 只拍痛点（杂乱），不出现产品；用于详情页前段
+negative_add: []
+name_zh: 痛点场景

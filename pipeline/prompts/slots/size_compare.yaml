@@ -1,0 +1,20 @@
+id: size_compare
+version: 1
+changelog:
+- 'v1: v0.3.0 新增模板（搬运工竞品调研）'
+category:
+- general
+slot: extra
+trigger: manual
+order: 110
+lane: M
+provider: openai
+size:
+- 1024
+- 1024
+layout_target: amazon_extra
+scene_en: product scale reference shot, $pt next to a laptop and smartphone, dimension
+  lines, neutral background
+composition: 与笔记本/手机同框建立尺寸认知；比例必须真实
+negative_add: []
+name_zh: 尺寸对比

@@ -1,0 +1,10 @@
+id: nordic
+name_zh: 北欧风
+style_en: Scandinavian minimal interior, white walls, light wood, soft textiles
+mood: minimal, airy, calm
+palette:
+- '#FFFFFF'
+- '#E8E4DC'
+- '#7FA8B8'
+lighting: soft natural daylight
+version: 1

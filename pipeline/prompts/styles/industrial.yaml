@@ -1,0 +1,10 @@
+id: industrial
+name_zh: 工业风
+style_en: industrial loft interior, exposed brick, dark steel, Edison bulb accents
+mood: industrial, rugged, functional
+palette:
+- '#2B2B2B'
+- '#6B6B6B'
+- '#E8730C'
+lighting: dramatic side lighting, deep shadows
+version: 1

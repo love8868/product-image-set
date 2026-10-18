@@ -1,0 +1,10 @@
+id: japandi
+name_zh: 日式原木风
+style_en: Japandi style, light oak wood, beige linen, soft daylight, minimal
+mood: warm minimal, serene
+palette:
+- '#FAF7F2'
+- '#D9CBB8'
+- '#8A7B66'
+lighting: soft daylight
+version: 1
