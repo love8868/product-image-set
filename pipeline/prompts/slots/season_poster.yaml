@@ -1,0 +1,17 @@
+id: season_poster
+version: 1
+changelog:
+  - "v1: 从 generate.py --season 内联 job 迁移为 slot；$season_scene 由 seasons.py 注入；size 收敛为 layout 侧 1080×1440（旧 generate 侧 1024×1365 已废弃）"
+category: [all]
+slot: season
+trigger: season        # 仅 --season <key> 时纳入，key 决定输出文件名 season_<key>
+order: 40
+lane: M
+provider: openai
+size: [1080, 1440]
+layout_target: season_poster
+scene_en: >-
+  Seasonal poster background, $season_scene, the $pt placed as the hero
+  with generous negative space for headline text
+composition: "上中下三段式预留：标题区 / 中性产品区 / 行动区（对齐 layout season_poster）"
+negative_add: ["cluttered holiday decorations covering product"]

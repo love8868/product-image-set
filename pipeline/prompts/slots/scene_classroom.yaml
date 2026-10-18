@@ -1,0 +1,18 @@
+id: scene_classroom
+version: 1
+changelog:
+  - "v1: 从 prompts.py SCENES['classroom'] 迁移；{pt} 改为 $pt（string.Template 语法）"
+category: [charging_cabinet]
+slot: scene
+trigger: always
+order: 20
+lane: M
+provider: openai
+size: [1024, 1024]
+layout_target: amazon_extra
+scene_en: >-
+  Bright modern classroom scene, the $pt on a teacher's desk with
+  tablets neatly stored nearby, clean minimal background, morning light,
+  product centered as the visual focus
+composition: "产品居中；layout amazon_extra_1 左上预留文字区（浅色罩）"
+negative_add: []

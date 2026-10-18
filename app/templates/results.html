@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>任务结果 · 产品详情套图工具</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="logo">产品详情套图工具</span>
+    <span class="sub">MANHATTAN · INTELLINET</span>
+    <a class="back" href="{{ url_for('index') }}">← 返回新建任务</a>
+  </div>
+</header>
+
+<div class="page">
+  <div class="page-head">
+    <h1>任务结果</h1>
+    <div class="orange-rule"></div>
+    <p>{{ handle }} · {{ season_label }} · {{ theme_label }}</p>
+  </div>
+
+  <!-- 任务状态（JS 每 2s 轮询 /api/status 更新） -->
+  <section class="card">
+    <h2>任务状态</h2>
+    <p class="hint" id="status-hint">运行中，页面会自动刷新进度。</p>
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span class="pct" id="pct">0%</span>
+        <span class="txt" id="ptxt">已完成 0 / {{ modules|length }} 模块</span>
+      </div>
+      <div class="progress"><div class="fill running" id="pfill" style="width:0%"></div></div>
+    </div>
+    <ul class="mod-status" id="module-status">
+      {% for m in modules %}
+      <li class="st-pending" data-module="{{ m }}"><span class="dot"></span><span class="name">{{ m }}</span><span class="en">{{ m }}</span><span class="pill">等待中</span></li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <!-- 成果图片 -->
+  <section class="card">
+    <h2>成品图</h2>
+    <p class="hint">final/ · 点击查看大图。任务完成后自动刷新。</p>
+    <div class="shot-grid">
+      {% for img in images %}
+      <div class="shot"><div class="thumb"><a href="{{ img.url }}" target="_blank"><img src="{{ img.url }}" alt="{{ img.name }}" loading="lazy"></a></div><div class="fname">{{ img.name }}</div></div>
+      {% else %}
+      <p class="hint">成品图尚未生成。</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- 文案与文档 -->
+  <section class="card">
+    <h2>文案与文档</h2>
+    <p class="hint">各模块产出的文案和验收清单。</p>
+    <ul class="entry-list">
+      {% for d in docs %}
+      <li>
+        {% if d.exists %}
+        <a href="{{ d.url }}" target="_blank"><span class="ico">{{ d.ico }}</span><span><span class="t">{{ d.title }}</span><br><span class="d">{{ d.desc }}</span></span><span class="go">→</span></a>
+        {% else %}
+        <a class="disabled"><span class="ico">{{ d.ico }}</span><span><span class="t">{{ d.title }}</span><br><span class="d">{{ d.desc }}（尚未生成）</span></span><span class="go">·</span></a>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <div class="btn-row">
+    <a class="btn-ghost" href="{{ url_for('index') }}">← 返回新建任务</a>
+  </div>
+</div>
+
+<script>
+const JOB_ID = {{ job_id|tojson }};
+let finished = {{ 'true' if state in ('done', 'failed') else 'false' }};
+async function poll() {
+  if (finished) return;
+  try {
+    const r = await fetch('/api/status?job_id=' + encodeURIComponent(JOB_ID));
+    const j = await r.json();
+    if (!r.ok) return;
+    document.getElementById('pct').textContent = j.pct + '%';
+    document.getElementById('ptxt').textContent = '已完成 ' + j.done_count + ' / ' + j.total + ' 模块';
+    const fill = document.getElementById('pfill');
+    fill.style.width = j.pct + '%';
+    fill.className = 'fill ' + (j.state === 'running' ? 'running' : '');
+    for (const [m, st] of Object.entries(j.modules)) {
+      const li = document.querySelector('li[data-module="' + m + '"]');
+      if (li) {
+        li.className = 'st-' + st.cls;
+        li.querySelector('.pill').textContent = st.label;
+      }
+    }
+    if (j.state === 'done' || j.state === 'failed') {
+      finished = true;
+      document.getElementById('status-hint').textContent =
+        j.state === 'done' ? '任务完成。' : '任务失败，请查看日志。';
+      location.reload();
+    }
+  } catch (e) { /* 下一轮重试 */ }
+  if (!finished) setTimeout(poll, 2000);
+}
+setTimeout(poll, 2000);
+</script>
+
+</body>
+</html>

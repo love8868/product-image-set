@@ -1,0 +1,18 @@
+id: scene_office
+version: 1
+changelog:
+  - "v1: 从 prompts.py SCENES['office_desk'] 迁移；{pt} 改为 $pt（string.Template 语法）"
+category: [charging_cabinet]
+slot: scene
+trigger: always        # always = 自动纳入 generate 任务；season = --season 时纳入；manual = 仅模板库备查
+order: 10
+lane: M
+provider: openai
+size: [1024, 1024]
+layout_target: amazon_extra   # 显式指向 layout.py TEMPLATES 的 key（解决两套命名悬空）
+scene_en: >-
+  Modern office desk scene, the $pt placed on a light wooden desk
+  next to a laptop and notebook, soft daylight from a window,
+  shallow depth of field, product as the clear hero in the foreground
+composition: "产品前景居中偏右；layout amazon_extra_1 左上预留 58%W×38%H 文字区（浅色罩）"
+negative_add: []
